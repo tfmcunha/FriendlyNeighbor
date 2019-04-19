@@ -28,7 +28,9 @@ class Dashboard extends Component {
 
   render() {
     return (
-      <div>Hello {this.state.user.first_name}</div>
+      <div>
+      	Hello {this.state.user.first_name}
+      </div>
     );
   }
 }

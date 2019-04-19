@@ -25,6 +25,7 @@ class LoginForm extends Component {
 	
 
  	render() {
+ 		const errors = this.props.errors.errors;
     	return (
       		<div>
       			{Auth.isUserAuthenticated() &&
@@ -34,10 +35,16 @@ class LoginForm extends Component {
 		      		<input type="text" name="username" placeholder="username" value={this.state.username} onChange={this.handleChange}/>
 		      		<input type="password" name="password" placeholder="password" value={this.state.password} onChange={this.handleChange}/>
 		      		<input type="submit" value="OK" />
-      			</form>  
+      			</form> 
 
+      			{errors !== undefined &&
+      				errors.map(error => (
+      					<div key="">{error.detail}</div>
+      				))
+      			}				
       			     
       		</div>
+      				
     	);
   	}
 }

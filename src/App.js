@@ -9,7 +9,8 @@ class App extends Component {
 	constructor() {
 		super();
 		this.state = {
-			auth: Auth.isUserAuthenticated()
+			auth: Auth.isUserAuthenticated(),
+      errors: {}
 		}
 
     this.handleSubmit=this.handleSubmit.bind(this); 
@@ -27,7 +28,9 @@ class App extends Component {
     .then(res => res.json())
     .then(json => {
       if (json.token === undefined) {
-        console.log(json)
+        this.setState({
+          errors: json   
+        }); 
       } else {
         Auth.authenticateToken(json.token)
       };
@@ -39,14 +42,19 @@ class App extends Component {
   }
 
   render() {
-    return (
-      <div>
-        <Route exact path="/" component={Home} />
+    return (        
+      <div>        
+        <Route 
+          exact path="/" 
+          render={() => Auth.isUserAuthenticated()
+            ? <Redirect to="/dashboard" />
+            : <Home /> 
+          } />
         <Route 
           exact path="/login" 
           render={() => this.state.auth
             ? <Redirect to="/dashboard" />
-            : <LoginForm handleSubmit={this.handleSubmit} />
+            : <LoginForm handleSubmit={this.handleSubmit} errors={this.state.errors} />
           } /> 
         <Route exact path="/dashboard" component={Dashboard} />      
       </div>

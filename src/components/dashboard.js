@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import Auth from '../modules/auth';
+import CancelAcc from './cancelacc';
 
 class Dashboard extends Component {
 	constructor() {
@@ -7,6 +9,7 @@ class Dashboard extends Component {
 		this.state = {
 			user: {}
 		}
+		this.handleLogout = this.handleLogout.bind(this);
 	}
 
 	componentDidMount() {    
@@ -26,11 +29,20 @@ class Dashboard extends Component {
 	    .catch(error => console.log(error))
 	  }
 
+	  handleLogout() {
+	  	Auth.deauthenticateUser();
+	  }
+
   render() {
     return (
-      <div>
-      	Hello {this.state.user.first_name}
-      </div>
+      	<div>
+      		{!(Auth.isUserAuthenticated()) &&
+      			<Redirect to="/" />
+      		}
+      		Hello {this.state.user.first_name}
+      		<a href="/" onClick={this.handleLogout}>Logout</a>
+      		<CancelAcc user_id={this.state.user.id} />      	
+      	</div>
     );
   }
 }

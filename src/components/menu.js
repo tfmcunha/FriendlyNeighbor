@@ -7,6 +7,7 @@ class Menu extends Component {
     return (
       <div>
       	<Link exact to="/login">Login</Link>
+      	
       </div>
     );
   }

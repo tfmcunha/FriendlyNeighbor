@@ -4,6 +4,7 @@ import Auth from './modules/auth';
 import Home from './components/home';
 import LoginForm from './components/loginform';
 import Dashboard from './components/dashboard';
+import Register from './components/register';
 
 class App extends Component {
 	constructor() {
@@ -50,6 +51,7 @@ class App extends Component {
             ? <Redirect to="/dashboard" />
             : <Home /> 
           } />
+          
         <Route 
           exact path="/login" 
           render={() => this.state.auth
@@ -57,6 +59,7 @@ class App extends Component {
             : <LoginForm handleSubmit={this.handleSubmit} errors={this.state.errors} />
           } /> 
         <Route exact path="/dashboard" component={Dashboard} />      
+        <Route exact path="/register" component={Register} /> 
       </div>
     );
   }

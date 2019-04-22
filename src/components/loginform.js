@@ -7,31 +7,58 @@ class LoginForm extends Component {
 	constructor() {
 		super();
 		this.state = {
-			username: '',
-			password: ''
+			loginData: {},
+			errors: {}
 		}
 		this.handleChange=this.handleChange.bind(this);	
+		this.handleLogin=this.handleLogin.bind(this);	
 	}
 
 	handleChange(e) {
-		const name = e.target.name;
-		const value = e.target.value;
+		const loginData = this.state.loginData;
+		loginData[e.target.name] = e.target.value;
 		this.setState({
-			[name]: value
+			loginData
 		})
 	}
+
+	handleLogin(e) {
+	    e.preventDefault();
+	    fetch('http://localhost:3001/login', { 
+	      method: 'POST', 
+	      body: JSON.stringify(this.state.loginData), 
+	      headers: {
+	        'Content-Type': 'application/json'
+	      }
+	    })
+	    .then(res => res.json())
+	    .then(json => {
+	    	if (json.token !== undefined) {
+		    	Auth.authenticateToken(json.token)
+		    	console.log(json);
+		    	const {handleAuth} = this.props;
+		    	handleAuth();
+		    } else {
+		    	this.setState({
+		    		errors: json
+		    	})
+		    }
+	    })
+	    .catch(error => console.log(error))
+	  }
 
 
 	
 
  	render() {
- 		const errors = this.props.errors.errors;
+ 		const errors = this.state.errors.errors; 		
+		
     	return (
       		<div>
       			{Auth.isUserAuthenticated() &&
       				<Redirect to="/dashboard" />
       			}
-      			<form onSubmit={(e) => this.props.handleSubmit(e, this.state)}>
+      			<form onSubmit={this.handleLogin}>
 		      		<input type="text" name="username" placeholder="username" value={this.state.username} onChange={this.handleChange}/>
 		      		<input type="password" name="password" placeholder="password" value={this.state.password} onChange={this.handleChange}/>
 		      		<input type="submit" value="OK" />

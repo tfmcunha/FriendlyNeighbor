@@ -11,55 +11,43 @@ class App extends Component {
 		super();
 		this.state = {
 			auth: Auth.isUserAuthenticated(),
-      errors: {}
-		}
-
-    this.handleSubmit=this.handleSubmit.bind(this); 
+		};
+    this.handleAuthentication=this.handleAuthentication.bind(this);
 	}
 
-  handleSubmit(e, data) {
-    e.preventDefault();
-    fetch('http://localhost:3001/login', { 
-      method: 'POST', 
-      body: JSON.stringify(data), 
-      headers: {
-        'Content-Type': 'application/json'
-      }
+  handleAuthentication() {
+    this.setState({
+      auth: Auth.isUserAuthenticated()
     })
-    .then(res => res.json())
-    .then(json => {
-      if (json.token === undefined) {
-        this.setState({
-          errors: json   
-        }); 
-      } else {
-        Auth.authenticateToken(json.token)
-      };
-      this.setState({
-        auth: Auth.isUserAuthenticated()   
-      })
-    })
-    .catch(error => console.log(error))
-  }
+  }  
 
   render() {
     return (        
       <div>        
         <Route 
           exact path="/" 
-          render={() => Auth.isUserAuthenticated()
+          render={() => this.state.auth
             ? <Redirect to="/dashboard" />
             : <Home /> 
-          } />
+        } />
           
         <Route 
           exact path="/login" 
           render={() => this.state.auth
             ? <Redirect to="/dashboard" />
-            : <LoginForm handleSubmit={this.handleSubmit} errors={this.state.errors} />
-          } /> 
-        <Route exact path="/dashboard" component={Dashboard} />      
-        <Route exact path="/register" component={Register} /> 
+            : <LoginForm handleAuth={this.handleAuthentication} />
+          } 
+        /> 
+
+        <Route 
+          exact path="/dashboard" 
+          render={() => <Dashboard handleAuth={this.handleAuthentication} /> } 
+        />      
+
+        <Route 
+          exact path="/register" 
+          render={() => <Register handleAuth={this.handleAuthentication} /> }
+        />
       </div>
     );
   }

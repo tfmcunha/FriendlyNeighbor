@@ -18,7 +18,14 @@ class CancelAcc extends Component {
         }
       })
     .then(res => res.json())
-    .then(json => console.log(json))
+    .then(json => {
+      if (json.status === "ok") {
+        Auth.deauthenticateUser();
+        const { handleAuth } = this.props;  
+        handleAuth();       
+      }
+      console.log(json)
+    })
     .catch(error => console.log(error))
 
   }
@@ -26,7 +33,6 @@ class CancelAcc extends Component {
 	
 
  	render() {
-    console.log(this.props)
     	return (
       		<div>      			 				
       			   <button type="button" onClick={this.handleCancelation}>Cancel Account</button>  

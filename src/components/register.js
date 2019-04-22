@@ -37,7 +37,9 @@ class Register extends Component {
           errors: json   
         }); 
       } else {
-        Auth.authenticateToken(json.token)
+        Auth.authenticateToken(json.token);
+        const { handleAuth } = this.props;  
+        handleAuth();  
       };
     })
     .catch(error => console.log(error))

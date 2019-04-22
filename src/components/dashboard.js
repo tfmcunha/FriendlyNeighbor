@@ -22,9 +22,15 @@ class Dashboard extends Component {
 	    })
 	    .then(res => res.json())
 	    .then(json => {
-	    	this.setState({
-	    		user: json.user
-	    	});
+	    	if (json.user !== undefined ) {
+		    	this.setState({
+		    		user: json.user
+		    	});
+		    } else {
+		    	Auth.deauthenticateUser();
+		    	const { handleAuth } = this.props;  
+        		handleAuth(); 
+		    }
 	    })
 	    .catch(error => console.log(error))
 	  }
@@ -41,7 +47,7 @@ class Dashboard extends Component {
       		}
       		Hello {this.state.user.first_name}
       		<a href="/" onClick={this.handleLogout}>Logout</a>
-      		<CancelAcc user_id={this.state.user.id} />      	
+      		<CancelAcc user_id={this.state.user.id} handleAuth={this.props.handleAuth}/>      	
       	</div>
     );
   }

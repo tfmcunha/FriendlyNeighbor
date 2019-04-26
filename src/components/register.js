@@ -59,6 +59,7 @@ class Register extends Component {
 		      		<input type="email" name="email" placeholder="email" value={this.state.user.email} onChange={this.handleChange}/>
 		      		<input type="text" name="first_name" placeholder="First name" value={this.state.user.first_name} onChange={this.handleChange}/>
 		      		<input type="text" name="last_name" placeholder="Last name" value={this.state.user.last_name} onChange={this.handleChange}/>
+              <input type="file" name="govid"/>
 		      		<input type="submit" value="OK" />
       			</form>       							
       			     

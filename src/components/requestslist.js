@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 
 class RequestsList extends Component {
 	render() {
@@ -8,9 +7,9 @@ class RequestsList extends Component {
 				<div>Requests</div>
 		      		{this.props.requests !== undefined &&
 		      			this.props.requests.map(request => {
-		      			if (request.user_id !== this.props.user_id) {
-		      				return <div onClick={(e) => this.props.handleRequest(request)}>{request.title}</div>
-		      			} 
+			      			if (request.user_id !== this.props.user_id) {
+			      				return <div onClick={(e) => this.props.handleRequest(request)}>{request.title}</div>
+			      			} 
 		      		})} 
 			</div>
 		);

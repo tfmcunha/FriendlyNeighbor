@@ -50,7 +50,6 @@ class Dashboard extends Component {
 	  }
 
   render() {
-  	console.log(this.state.user)
     return (
       	<div>
       		{!(Auth.isUserAuthenticated()) &&

@@ -35,7 +35,6 @@ class LoginForm extends Component {
 	    .then(json => {
 	    	if (json.token !== undefined) {
 		    	Auth.authenticateToken(json.token)
-		    	console.log(json);
 		    	const {handleAuth} = this.props;
 		    	handleAuth();
 		    } else {
@@ -43,8 +42,7 @@ class LoginForm extends Component {
 		    		errors: json
 		    	})
 		    }
-	    })
-	    .catch(error => console.log(error))
+	    })	       
 	  }
 
 
@@ -59,7 +57,7 @@ class LoginForm extends Component {
       				<Redirect to="/dashboard" />
       			}
       			<form onSubmit={this.handleLogin}>
-		      		<input type="text" name="username" placeholder="username" value={this.state.username} onChange={this.handleChange}/>
+		      		<input type="text" name="email" placeholder="email" value={this.state.email} onChange={this.handleChange}/>
 		      		<input type="password" name="password" placeholder="password" value={this.state.password} onChange={this.handleChange}/>
 		      		<input type="submit" value="OK" />
       			</form> 

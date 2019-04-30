@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import Auth from '../modules/auth';
-import CancelAcc from './cancelacc';
+import Menu from './menu';
 import RequestsList from './requestslist';
 import RequestDetail from './requestdetail';
 
@@ -55,10 +55,7 @@ class Dashboard extends Component {
       		{!(Auth.isUserAuthenticated()) &&
       			<Redirect to="/" />
       		}
-      		Hello {this.state.user.first_name}
-      		<a href={this.state.user.govid}>View file</a>
-      		<a href="/" onClick={this.handleLogout}>Logout</a>
-      		<CancelAcc user_id={this.state.user.id} handleAuth={this.props.handleAuth}/>        
+      		<Menu user={this.state.user} handleLogout={this.handleLogout}/>        
       		<RequestsList user_id={this.state.user.id} requests={this.state.user.requests} handleRequest={this.handleRequest} />
       		<RequestDetail request={this.state.currentRequest} />
       	</div>

@@ -1,16 +1,25 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import Auth from '../modules/auth';
+import CancelAcc from './cancelacc';
 
 
 class Menu extends Component {
-  render() {
-    return (
-      <div>
-      	<Link exact to="/login">Login</Link>
+
+	handleLogout() {
+	  	Auth.deauthenticateUser();
+	}
+
+	render() {
+    	return (
+     		<div>
+	      		Hello {this.props.user.first_name}
+	      		<a href={this.props.user.govid}>View file</a>
+	      		<a href="/" onClick={this.props.handleLogout}>Logout</a>
+	      		
       	
-      </div>
-    );
-  }
+      		</div>
+    	);
+  	}
 }
 
 export default Menu;

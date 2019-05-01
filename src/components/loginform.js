@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
+import { Form, Button } from 'react-bootstrap';
 import Auth from '../modules/auth';
 
 
@@ -13,6 +14,12 @@ class LoginForm extends Component {
 		this.handleChange=this.handleChange.bind(this);	
 		this.handleLogin=this.handleLogin.bind(this);	
 	}
+
+	handleAuthentication() {
+		this.setState({
+			auth: Auth.isUserAuthenticated()
+		})
+	}  
 
 	handleChange(e) {
 		const loginData = this.state.loginData;
@@ -36,7 +43,7 @@ class LoginForm extends Component {
 	    	if (json.token !== undefined) {
 		    	Auth.authenticateToken(json.token)
 		    	const {handleAuth} = this.props;
-		    	handleAuth();
+		    	this.handleAuthentication();
 		    } else {
 		    	this.setState({
 		    		errors: json
@@ -52,22 +59,29 @@ class LoginForm extends Component {
  		const errors = this.state.errors.errors; 		
 		
     	return (
-      		<div>
+      		<div className="p-4">
       			{Auth.isUserAuthenticated() &&
       				<Redirect to="/dashboard" />
       			}
-      			<form onSubmit={this.handleLogin}>
-		      		<input type="text" name="email" placeholder="email" value={this.state.email} onChange={this.handleChange}/>
-		      		<input type="password" name="password" placeholder="password" value={this.state.password} onChange={this.handleChange}/>
-		      		<input type="submit" value="OK" />
-      			</form> 
+	      			<div className="text-center">LOGIN</div>
+	      			<Form onSubmit={this.handleLogin}>
+	      				<Form.Group>
+	      					<Form.Label>E-mail</Form.Label>
+			      			<Form.Control type="text" name="email" value={this.state.email} onChange={this.handleChange}/>
+						</Form.Group>		      			
+			      		<Form.Group>
+			      			<Form.Label>Password</Form.Label>
+			      			<Form.Control type="password" name="password" value={this.state.password} onChange={this.handleChange}/>
+			      		</Form.Group>
+			      		<Button variant="primary" type="submit" >OK</Button>		      		
+	      			</Form> 
 
-      			{errors !== undefined &&
-      				errors.map(error => (
-      					<div key="">{error.detail}</div>
-      				))
-      			}				
-      			     
+	      			{errors !== undefined &&
+	      				errors.map(error => (
+	      					<div key="">{error.detail}</div>
+	      				))
+	      			}				
+      			
       		</div>
       				
     	);

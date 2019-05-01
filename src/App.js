@@ -31,23 +31,12 @@ class App extends Component {
             : <Home /> 
         } />
           
-        <Route 
-          exact path="/login" 
-          render={() => this.state.auth
-            ? <Redirect to="/dashboard" />
-            : <LoginForm handleAuth={this.handleAuthentication} />
-          } 
-        /> 
-
+        
         <Route 
           exact path="/dashboard" 
           render={() => <Dashboard handleAuth={this.handleAuthentication} /> } 
         />      
-
-        <Route 
-          exact path="/register" 
-          render={() => <Register handleAuth={this.handleAuthentication} /> }
-        />
+        
       </div>
     );
   }

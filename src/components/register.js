@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import Auth from '../modules/auth';
+import { Form, Button } from 'react-bootstrap';
 import ErrorsHandler from './errorshandler';
 
 
@@ -21,6 +22,12 @@ class Register extends Component {
     this.handleFile=this.handleFile.bind(this); 
     
 	}
+
+  handleAuthentication() {
+    this.setState({
+      auth: Auth.isUserAuthenticated()
+    })
+  }  
 
 	handleChange(e) {
     	const name = e.target.name;
@@ -99,8 +106,7 @@ class Register extends Component {
       .then(json => {
           if (json.token !== undefined) {
             Auth.authenticateToken(json.token);
-            const { handleAuth } = this.props;  
-            handleAuth();    
+            this.handleAuthentication();   
           } else {                    
             this.setState({
               apierrors: JSON.parse(JSON.stringify(json.errors))
@@ -114,26 +120,40 @@ class Register extends Component {
 
  	render() {
     	return (
-      		<div>
+      		<div className="p-4">
       			{Auth.isUserAuthenticated() &&
       				<Redirect to="/dashboard" />
       			}
-            
-      			<form onSubmit={this.handleRegister}>		      		
-              <input type="email" name="email" placeholder="email" value={this.state.email} onChange={this.handleChange}/>
-              
-              <div>{this.state.errors.email}</div>
-              <ErrorsHandler errors={this.state.apierrors.email} field="Email" />
-              
-		      		<input type="password" name="password" placeholder="password" value={this.state.password} onChange={this.handleChange}/>		      		
-		      		<div>{this.state.errors.password}</div>
-              <input type="text" name="first_name" placeholder="First name" value={this.state.first_name} onChange={this.handleChange}/>
-		      		<div>{this.state.errors.first_name}</div>
-              <input type="text" name="last_name" placeholder="Last name" value={this.state.last_name} onChange={this.handleChange}/>
-              <div>{this.state.errors.last_name}</div>
-              <input type="file" name="govid" onChange={this.handleFile}/>
-		      		<input type="submit" value="OK" />
-      			</form>  
+            <div className="text-center">Create a new account</div>
+      			<Form onSubmit={this.handleRegister}>		      		
+              <Form.Group>
+                <Form.Label>E-mail</Form.Label>
+                <Form.Control type="email" name="email"value={this.state.email} onChange={this.handleChange}/>
+                
+                <Form.Text className="text-danger">{this.state.errors.email}</Form.Text>
+                <ErrorsHandler errors={this.state.apierrors.email} field="Email" />
+              </Form.Group> 
+              <Form.Group>
+                <Form.Label>Password</Form.Label>
+  		      		<Form.Control type="password" name="password" value={this.state.password} onChange={this.handleChange}/>		      		
+  		      		<Form.Text className="text-danger">{this.state.errors.password}</Form.Text>
+              </Form.Group>     
+              <Form.Group>
+                <Form.Label>First name</Form.Label>
+                <Form.Control type="text" name="first_name" value={this.state.first_name} onChange={this.handleChange}/>
+  		      		<Form.Text className="text-danger">{this.state.errors.first_name}</Form.Text>
+              </Form.Group> 
+              <Form.Group>
+                <Form.Label>Last name</Form.Label>
+                <Form.Control type="text" name="last_name" value={this.state.last_name} onChange={this.handleChange}/>
+                <Form.Text className="text-danger">{this.state.errors.last_name}</Form.Text>
+              </Form.Group> 
+              <Form.Group> 
+                <Form.Label>Upload government ID</Form.Label>
+                <Form.Control type="file" name="govid" onChange={this.handleFile}/>
+              </Form.Group> 
+  		      	<Button variant="primary" type="submit">Register</Button>
+      			</Form>  
 
       		</div>
       				

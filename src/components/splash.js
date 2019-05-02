@@ -3,7 +3,7 @@ import { Button, Modal } from 'react-bootstrap';
 import LoginForm from './loginform';
 import Register from './register';
 
-class Home extends Component {
+class Splash extends Component {
 	constructor() {
 		super();
 
@@ -58,4 +58,4 @@ class Home extends Component {
 	}
 }
 
-export default Home;
+export default Splash;

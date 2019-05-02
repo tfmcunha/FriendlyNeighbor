@@ -41,8 +41,7 @@ class LoginForm extends Component {
 	    .then(res => res.json())
 	    .then(json => {
 	    	if (json.token !== undefined) {
-		    	Auth.authenticateToken(json.token)
-		    	const {handleAuth} = this.props;
+		    	Auth.authenticateToken(json.token);		    	
 		    	this.handleAuthentication();
 		    } else {
 		    	this.setState({

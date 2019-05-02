@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
-import { Button, Modal } from 'react-bootstrap';
+import { Route, Redirect } from 'react-router-dom';
 import Auth from '../modules/auth';
 import Menu from './menu';
 import RequestsList from './requestslist';
 import RequestDetail from './requestdetail';
-import NewRequest from './newrequest';
+import Profile from './profile';
 
 class Dashboard extends Component {
 	constructor() {
@@ -68,18 +67,23 @@ class Dashboard extends Component {
       		{!(Auth.isUserAuthenticated()) &&
       			<Redirect to="/" />
       		}
-      		<Menu user={this.state.user} handleLogout={this.handleLogout}/>        
-      		<RequestsList user_id={this.state.user.id} requests={this.state.user.requests} handleRequest={this.handleRequest} />
-      		<RequestDetail request={this.state.currentRequest} />
-      		<Button variant="primary" onClick={this.handleShow}>
-				New Request
-			</Button>
-
-			<Modal size="lg" show={this.state.show} onHide={this.handleClose}>
-				<NewRequest user_id={this.state.user.id}/>
-			</Modal>
-
-    
+      		<Menu user={this.state.user} handleLogout={this.handleLogout}/>     
+      		<Route 
+				exact path="/dashboard" 
+				render={() => 
+					<div>
+						<RequestsList user_id={this.state.user.id} requests={this.state.user.requests} handleRequest={this.handleRequest} />
+      					<RequestDetail request={this.state.currentRequest} />    
+      				</div>
+				} 
+			/> 
+			<Route 
+				exact path="/dashboard/profile"
+				render={() => 					
+					<Profile user={this.state.user} />      					      				
+				}
+			/>   
+      		
       	</div>
     );
   }

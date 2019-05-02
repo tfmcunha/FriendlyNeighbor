@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import Auth from '../modules/auth';
-import Menu from './menu';
 import Splash from './splash';
 import Dashboard from './dashboard';
 
@@ -50,20 +49,19 @@ class Main extends Component {
 
 	render() {
 		return (        
-			<div> 
-			<Menu user={this.state.user} handleLogout={this.handleLogout}/>          
-			<Route 
-			exact path="/" 
-			render={() => this.state.auth
-				? <Redirect to="/dashboard" />
-				: <Splash /> 
-			} />
+			<div> 	
 
+				<Route 
+					exact path="/" 
+					render={() => this.state.auth
+						? <Redirect to="/dashboard" />
+						: <Splash /> 
+				} />
 
-			<Route 
-			exact path="/dashboard" 
-			render={() => <Dashboard user="this.state.user" handleAuth={this.handleAuthentication} /> } 
-			/>      
+				<Route 
+					path="/dashboard" 
+					render={() => <Dashboard user="this.state.user" handleAuth={this.handleAuthentication} /> } 
+				/>      
 
 			</div>
 			);

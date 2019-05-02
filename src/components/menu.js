@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { Modal, Button } from 'react-bootstrap';
 import Auth from '../modules/auth';
 import CancelAcc from './cancelacc';
@@ -32,7 +33,8 @@ class Menu extends Component {
      		<div>
 	      		Hello {this.props.user.first_name}
 	      		<a href={this.props.user.govid}>View file</a>
-	      		<a href="/" onClick={this.props.handleLogout}>Logout</a>      	
+	      		<a href="/" onClick={this.props.handleLogout}>Logout</a>
+	      		<Link to="/dashboard/profile">Profile</Link>      	
 	      		<CancelAcc user_id={this.props.user.id} />
 
 	      		<Button variant="primary" onClick={this.handleShow}>

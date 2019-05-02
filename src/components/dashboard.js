@@ -75,7 +75,7 @@ class Dashboard extends Component {
 				New Request
 			</Button>
 
-			<Modal show={this.state.show} onHide={this.handleClose}>
+			<Modal size="lg" show={this.state.show} onHide={this.handleClose}>
 				<NewRequest user_id={this.state.user.id}/>
 			</Modal>
 

@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 class RequestDetails extends Component {
-	render() {
-		console.log(this.props.request)
+	render() {		
 		return(
 			<div>Details:
-				{this.props.request !== undefined  
-				? <div>{this.props.request.body}</div>
+				{this.props.request.id !== undefined  
+				? 	<div>
+						<div>{this.props.request.body}</div>
+						<Link to={"/dashboard/request/"+this.props.request.id}>HELP</Link>
+					</div>
 				: <div>No request selected</div>
 				}
 			</div>

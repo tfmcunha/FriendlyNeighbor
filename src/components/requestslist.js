@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
+import './teste.css';
 
-class RequestsList extends Component {
+class RequestsList extends Component {	
 	render() {
 		return(
 			<div>
 				<div>Requests</div>
 		      		{this.props.requests !== undefined &&
+
 		      			this.props.requests.map(request => {
-			      			if (request.user_id === this.props.user_id) {
-			      				return <div onClick={(e) => this.props.handleRequest(request)}>{request.title}</div>
-			      			} 
+
+			      				return <div key={request.id} onClick={(e) => this.props.handleRequest(request)}>{request.title}</div>
+			      			 
 		      		})} 
 			</div>
 		);

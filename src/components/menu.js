@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
-import { Modal, Button } from 'react-bootstrap';
+import { Navbar, Nav, NavDropdown, Modal, Button } from 'react-bootstrap';
 import Auth from '../modules/auth';
 import CancelAcc from './cancelacc';
 import NewRequest from './newrequest';
+import { GoPlus } from "react-icons/go";
 
 
 
@@ -16,6 +17,14 @@ class Menu extends Component {
 	}
 
 	handleLogout() {
+		fetch('http://localhost:3001/logout', {
+			method: 'delete',
+			headers: {
+				'Authorization': `Token ${Auth.getToken()}`
+			}
+		})
+		.then(res => res.json())
+		.then(json => console.log(json));
 		Auth.deauthenticateUser();
 	}
 
@@ -29,22 +38,31 @@ class Menu extends Component {
 	}
 
 	render() {
-    	return (
-     		<div>
-	      		Hello {this.props.user.first_name}
-	      		<a href={this.props.user.govid}>View file</a>
-	      		<a href="/" onClick={this.props.handleLogout}>Logout</a>
-	      		<Link to="/dashboard/profile">Profile</Link>      	
-	      		<CancelAcc user_id={this.props.user.id} />
+    	return (    		
+     		<Fragment>
 
-	      		<Button variant="primary" onClick={this.handleShow}>
-					New Request
-				</Button>
+	     		<Navbar bg="light" expand="lg">
+		     		<Navbar.Brand href="/">Friendly Neighbour</Navbar.Brand>
+		     		<Navbar.Toggle aria-controls="basic-navbar-nav" />
+		     		<Navbar.Collapse id="basic-navbar-nav">
+			     		<Nav className="ml-auto">			     		
+				     		<Nav.Link onClick={this.handleShow}> <GoPlus /> </Nav.Link>				     		
+				     		<NavDropdown title={`Hello, ${this.props.user.first_name}`} id="basic-nav-dropdown">
+				     		<NavDropdown.Item href="/dashboard/profile">Profile</NavDropdown.Item>
+				     		<NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
+				     		<NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+				     		<NavDropdown.Divider />
+				     		<NavDropdown.Item href="/" onClick={this.handleLogout}>Logout</NavDropdown.Item>
+				     		</NavDropdown>
+			     		</Nav>
+		     		</Navbar.Collapse>
+	     		</Navbar>
 
 				<Modal size="lg" show={this.state.show} onHide={this.handleClose}>
-					<NewRequest user_id={this.props.user.id}/>
+					<NewRequest user_id={this.props.user.id} close={this.handleClose} />
 				</Modal>
-      		</div>
+
+      		</Fragment>
     	);
   	}
 }

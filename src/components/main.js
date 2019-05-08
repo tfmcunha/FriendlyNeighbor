@@ -16,27 +16,6 @@ class Main extends Component {
 		this.handleLogout = this.handleLogout.bind(this);
 	}
 
-	componentDidMount() {    
-		fetch('http://localhost:3001/profile', { 
-			method: 'GET',
-			headers: {	        
-				token: Auth.getToken(),
-				'Authorization': `Token ${Auth.getToken()}`
-			}
-		})
-		.then(res => res.json())
-		.then(json => {
-			if (json.user !== undefined ) {
-				this.setState({
-					user: json.user
-				});
-			} else {
-				Auth.deauthenticateUser();
-				this.handleAuthentication();
-			}
-		})	    
-	}
-
 	handleLogout() {
 		Auth.deauthenticateUser();
 	}
@@ -60,11 +39,11 @@ class Main extends Component {
 
 				<Route 
 					path="/dashboard" 
-					render={() => <Dashboard user="this.state.user" handleAuth={this.handleAuthentication} /> } 
+					render={() => <Dashboard user={this.state.user} handleAuth={this.handleAuthentication} /> } 
 				/>      
 
 			</div>
-			);
+		);
 	}
 }
 

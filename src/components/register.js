@@ -50,6 +50,7 @@ class Register extends Component {
     const password = this.state.password;
     const first_name = this.state.first_name;
     const last_name = this.state.last_name;
+    const govid = this.state.govid;
     let errors ={};
     let formIsValid = true;
 
@@ -79,7 +80,18 @@ class Register extends Component {
     if (!password) {
       formIsValid = false;
       errors["password"] = "*Please enter a password";
-    } 
+    }
+
+    if (!govid) {
+      formIsValid = false;
+      errors["govid"] = "*Must select a file";
+    } else {
+      const types = ['application/pdf', 'image/jpeg', 'image/png'];
+      if (types.every(type => govid.type !== type)) {
+        formIsValid = false;
+        errors["govid"] = "*Invalid file type";
+      }
+    }
 
     this.setState({
       errors
@@ -150,7 +162,8 @@ class Register extends Component {
               </Form.Group> 
               <Form.Group> 
                 <Form.Label>Upload government ID</Form.Label>
-                <Form.Control type="file" name="govid" onChange={this.handleFile}/>
+                <Form.Control type="file" name="govid" accept="application/pdf, image/png, image/jpeg" onChange={this.handleFile}/>
+                <Form.Text className="text-danger">{this.state.errors.govid}</Form.Text>
               </Form.Group> 
   		      	<Button variant="primary" type="submit">Register</Button>
       			</Form>  

@@ -115,7 +115,7 @@ class Register extends Component {
         body: user, 
       })
       .then(res => res.json())
-      .then(json => {
+      .then(json => {          
           if (json.token !== undefined) {
             Auth.authenticateToken(json.token);
             this.handleAuthentication();   

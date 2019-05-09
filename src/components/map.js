@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { Modal} from 'react-bootstrap';
 import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react';
 import NewRequest from './newrequest';
@@ -13,9 +13,7 @@ class RequestMap extends Component {
 			selectedPlace: {}
 		};    
     	this.onMarkerClick = this.onMarkerClick.bind(this);
-    	this.onMapClick = this.onMapClick.bind(this);
-    	this.handleClose = this.handleClose.bind(this);
-		this.handleShow = this.handleShow.bind(this);
+    	this.onMapClick = this.onMapClick.bind(this);    	
 	}
 
 	
@@ -28,30 +26,14 @@ class RequestMap extends Component {
 		})
 	}
 
-	onMapClick(props, map, e) {
-		console.log(e.latLng.lat());
-		if (this.state.showingInfoWindow) {
-			this.setState({
-				showingInfoWindow: false,
-				activeMarker: null
-			});
-		}
+	onMapClick(props, map, e) {		
+		const { handleShow } = this.props;
+		handleShow(e.latLng.lat(), e.latLng.lng());
 	}
-
-
-
-	handleShow() {
-		this.setState({ show: true });
-	}
-
-	handleClose() {
-		this.setState({ show: false });
-	}
-
 
 	render() {     
 		return (
-			<Fragment>
+			
 
 				<Map 
 					google= {this.props.google}           
@@ -81,11 +63,7 @@ class RequestMap extends Component {
 			        </InfoWindow>
 		        </Map> 
 
-				<Modal size="lg" show={this.state.show} onHide={this.handleClose}>
-					<NewRequest user_id={this.props.user.id} close={this.handleClose} />
-				</Modal>
-
-		    </Fragment>
+		    
         );
 	}
 }

@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import { Row, Col } from 'react-bootstrap';
+import { Row, Col, Modal } from 'react-bootstrap';
 import Auth from '../modules/auth';
 import Menu from './menu';
 import RequestMap from './map';
@@ -8,6 +8,7 @@ import RequestsList from './requestslist';
 import RequestDetail from './requestdetail';
 import Request from './request';
 import Profile from './profile';
+import NewRequest from './newrequest';
 
 class Dashboard extends Component {
 	constructor() {
@@ -16,6 +17,7 @@ class Dashboard extends Component {
 			user: {},
 			requests: [],
 			currentRequest: {},	
+			newLocation: {},
 			show: false
 		}
 		this.handleLogout = this.handleLogout.bind(this);
@@ -27,7 +29,8 @@ class Dashboard extends Component {
 
 	componentWillMount() {   
 		this.fetchProfile();
-		this.fetchRequests(); 
+		this.fetchRequests();
+		this.getLocation(); 
 	}
 
 	fetchProfile() {
@@ -100,8 +103,13 @@ class Dashboard extends Component {
 		})
 	}
 
-	handleShow() {
-		this.setState({ show: true });
+	handleShow(lat, lng) {
+		const coords = {lat: lat, lng: lng}
+		this.setState({ 
+			show: true,
+			newLocation: coords 
+
+		});
 	}
 
 	handleClose() {
@@ -124,7 +132,7 @@ class Dashboard extends Component {
 							<Row>
 								<Col md={9}>
 									<div style={{height:"500px"}}>
-										<RequestMap currentLocation={this.state.currentLocation}/>
+										<RequestMap currentLocation={this.state.currentLocation} handleShow={this.handleShow}/>
 									</div>
 								</Col>
 								<Col md={3}>
@@ -153,6 +161,10 @@ class Dashboard extends Component {
 						<Profile user={this.state.user} handleRequest={this.handleRequest} findRequest={this.findRequest} />      					      				
 					}
 				/>   
+
+				<Modal size="lg" show={this.state.show} onHide={this.handleClose}>
+					<NewRequest user_id={this.state.user.id} newLocation={this.state.newLocation} close={this.handleClose} />
+				</Modal>
 
 
 			</Fragment>

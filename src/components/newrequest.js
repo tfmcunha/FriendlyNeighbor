@@ -73,7 +73,7 @@ class NewRequest extends Component {
 
 	}
 
-	render() {
+	render() {		
 		return(
 			<div className="p-4">
 				<div className="text-center">Add new help request</div>
@@ -94,8 +94,10 @@ class NewRequest extends Component {
 						<Form.Check type="radio" label="Material" name="req_type" value="1" onChange={this.handleChange} />
 						<Form.Text className="text-danger">{this.state.errors.req_type}</Form.Text>
 					</Form.Group>
+					<div>{this.props.newLocation.lat}</div>
 					<Button variant="primary" type="submit">Send</Button>
 				</Form>
+
 			</div>
 		);
 	}

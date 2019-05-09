@@ -1,9 +1,9 @@
 import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
-import { Navbar, Nav, NavDropdown, Modal, Button } from 'react-bootstrap';
+import { Navbar, Nav, NavDropdown,  Button } from 'react-bootstrap';
 import Auth from '../modules/auth';
 import CancelAcc from './cancelacc';
-import NewRequest from './newrequest';
+
 import { GoPlus } from "react-icons/go";
 
 
@@ -58,9 +58,6 @@ class Menu extends Component {
 		     		</Navbar.Collapse>
 	     		</Navbar>
 
-				<Modal size="lg" show={this.state.show} onHide={this.handleClose}>
-					<NewRequest user_id={this.props.user.id} close={this.handleClose} />
-				</Modal>
 
       		</Fragment>
     	);

@@ -68,6 +68,20 @@ class Dashboard extends Component {
 		})	
 	}
 
+	getLocation() {
+		if (navigator && navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition((pos) => {
+                const coords = pos.coords;
+                this.setState({
+                    currentLocation: {
+                        lat: coords.latitude,
+                        lng: coords.longitude
+                    }
+                })
+            })
+        }        
+	}
+
 	handleLogout() {
 		Auth.deauthenticateUser();
 	}
@@ -109,7 +123,9 @@ class Dashboard extends Component {
 						<Fragment>
 							<Row>
 								<Col md={9}>
-									<RequestMap />
+									<div style={{height:"500px"}}>
+										<RequestMap currentLocation={this.state.currentLocation}/>
+									</div>
 								</Col>
 								<Col md={3}>
 									<RequestsList requests={this.state.requests} handleRequest={this.handleRequest} />
@@ -137,6 +153,7 @@ class Dashboard extends Component {
 						<Profile user={this.state.user} handleRequest={this.handleRequest} findRequest={this.findRequest} />      					      				
 					}
 				/>   
+
 
 			</Fragment>
 		);

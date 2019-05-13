@@ -4,10 +4,6 @@ import { Navbar, Nav, NavDropdown,  Button } from 'react-bootstrap';
 import Auth from '../modules/auth';
 import CancelAcc from './cancelacc';
 
-import { GoPlus } from "react-icons/go";
-
-
-
 class Menu extends Component {
 	constructor() {
 		super();

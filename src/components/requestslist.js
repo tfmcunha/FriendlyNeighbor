@@ -4,8 +4,8 @@ import './teste.css';
 class RequestsList extends Component {	
 	render() {
 		return(
-			<div>
-				<div>Requests</div>
+			<div className="p-3">
+				<h3>Requests</h3>
 		      		{this.props.requests !== undefined &&
 
 		      			this.props.requests.map(request => {

@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
-import { Modal} from 'react-bootstrap';
 import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react';
-import NewRequest from './newrequest';
-
 
 class RequestMap extends Component {
 	constructor(props) {
 		super(props);
-		this.state = {			
+		this.state = {						
 			showingInfoWindow: false,
 			activeMarker: {},
 			selectedPlace: {}
@@ -15,8 +12,6 @@ class RequestMap extends Component {
     	this.onMarkerClick = this.onMarkerClick.bind(this);
     	this.onMapClick = this.onMapClick.bind(this);    	
 	}
-
-	
 
 	onMarkerClick(props, marker) {
 		this.setState({
@@ -31,26 +26,39 @@ class RequestMap extends Component {
 		handleShow(e.latLng.lat(), e.latLng.lng());
 	}
 
-	render() {     
+	setMarkerColor(type){	
+		let icon = "";	
+  		if (type === "1" ) {
+  			icon = "http://maps.google.com/mapfiles/ms/icons/green-dot.png"
+  		} else {
+  			icon = "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
+  		}
+  		return icon
+	}
+
+	render() {  
+		console.log(this.props)
 		return (
 			
 
 				<Map 
 					google= {this.props.google}           
 					initialCenter={this.props.currentLocation}
+					center={this.props.currentLocation}
 					zoom={15}
 					onClick={this.onMapClick}
 				>
 
-		          	{//riders.map(rider => (
-		          //    <Marker
-		          //            key={rider.id}
-		          //            title={rider.first_name}
-		          //            name={rider.first_name+' '+rider.last_name}
-		           //           position={{lat: rider.latitude, lng: rider.longitude}}
-		           //           onClick={this.onMarkerClick} />
+		          	{this.props.requests.map(request => (
+		              <Marker
+		                      key={request.id}
+		                      name={request.title}
+		                      position={{lat: request.lat, lng: request.lng}}
+		                      icon={this.setMarkerColor(request.req_type)}
+		                      onClick={this.onMarkerClick} />
+		          	
 
-		          	//))
+		          	))
 		          }         
 
 			        <InfoWindow
@@ -58,7 +66,7 @@ class RequestMap extends Component {
 			        	visible = { this.state.showingInfoWindow }
 			        >
 			        	<div>
-			        		<h2>teste</h2>
+			        		<h4>{this.state.selectedPlace.name}</h4>
 			        	</div>
 			        </InfoWindow>
 		        </Map> 

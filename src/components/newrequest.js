@@ -13,6 +13,15 @@ class NewRequest extends Component {
 		this.handleChange=this.handleChange.bind(this);
 	}
 
+	componentDidMount(){
+		this.setState({
+			request: {
+				lat: this.props.newLocation.lat,
+				lng: this.props.newLocation.lng
+			}
+		})
+	}
+
 	handleChange(e) {
 		const request = this.state.request;
 		request["user_id"] = this.props.user_id;
@@ -66,7 +75,7 @@ class NewRequest extends Component {
 	      	})
 	      	.then(res => res.json())
 	      	.then(json => {console.log(json)})
-	      	this.props.close();
+	      	this.props.close();	      	
 	    } else {
 	    	console.log("Form content not valid!")
 	    }
@@ -96,6 +105,7 @@ class NewRequest extends Component {
 					</Form.Group>
 					<div>{this.props.newLocation.lat}</div>
 					<Button variant="primary" type="submit">Send</Button>
+					<Button variant="secondary" onClick={this.props.close}>Close</Button>
 				</Form>
 
 			</div>

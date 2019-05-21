@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './teste.css';
 
-class RequestsList extends Component {	
+class RequestsList extends Component {		
 	render() {
 		return(
 			<div className="p-3">

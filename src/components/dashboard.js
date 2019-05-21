@@ -69,9 +69,11 @@ class Dashboard extends Component {
 		.then(res => res.json())
 		.then(json => {
 			this.setState({
-				requests: json.requests
-			})				
-		})			
+				requests: json
+			});
+			
+		})		
+
 	}
 
 	getLocation() {
@@ -94,16 +96,16 @@ class Dashboard extends Component {
 
 	handleRequest(request) {
 		this.setState({
-			currentRequest:request
+			currentRequest:request			
 		})
 	}
 
 	findRequest(request_id) {
-		console.log('current',Object.keys(this.state.requests));
-		console.log(this.state.requests);
+		let currentRequest = this.state.requests.find(request => request.id === request_id)	
 		this.setState({
-			currentRequest:this.state.requests[request_id]
+			currentRequest
 		})
+
 	}
 
 	handleShow(lat, lng) {
@@ -119,7 +121,8 @@ class Dashboard extends Component {
 		this.setState({show:false})
 	}
 
-	render() {					
+	render() {		
+
 		return (
 			<Fragment>
 				{!(Auth.isUserAuthenticated()) &&
@@ -144,7 +147,7 @@ class Dashboard extends Component {
 							</Row>
 							<Row>
 								<Col>
-									<RequestDetail request={this.state.currentRequest} />    
+									<RequestDetail user_id={this.state.user.id} request={this.state.currentRequest} />    
 								</Col>
 							</Row>
 						</Fragment>
@@ -154,7 +157,7 @@ class Dashboard extends Component {
 				<Route 
 					exact path={`/dashboard/request/${this.state.currentRequest.id}`}
 					render={() => 					
-						<Request request={this.state.currentRequest} />      					      				
+						<Request user_id={this.state.user.id} request={this.state.currentRequest} />      					      				
 					}
 				/>   
 

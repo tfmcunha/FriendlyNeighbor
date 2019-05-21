@@ -47,7 +47,7 @@ class LoginForm extends Component {
 		    	this.setState({
 		    		errors: json
 		    	})
-		    }
+		    }		    
 	    })	       
 	  }
 

@@ -75,7 +75,7 @@ class Profile extends Component {
 	
 
 	render() {
-		console.log(this.props.user)
+		console.log("user",this.props.user)
 		return (
 			<Row>
 				{!(Auth.isUserAuthenticated()) &&
@@ -111,6 +111,7 @@ class Profile extends Component {
 
 						<Button variant="primary" type="submit">Save</Button>
 					</Form>
+					<Link to={this.props.user.govidurl}>doc</Link>
 				</Col>
 
 				<Col md={4}>
@@ -118,7 +119,7 @@ class Profile extends Component {
 					<ListGroup>
 					{this.props.user.requests !== undefined &&
 						this.props.user.requests.map(request => (
-						<ListGroup.Item><Link to={`/dashboard/request/${request.id}`} onClick={(e) => this.props.handleRequest(request)}>{request.title}</Link></ListGroup.Item>
+						<ListGroup.Item><Link to={`/dashboard/request/${request.id}`} onClick={(e) => this.props.handleRequest(request.id)}>{request.title}</Link></ListGroup.Item>
 					))}
 					</ListGroup>
 				</Col>

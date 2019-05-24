@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 class RequestDetails extends Component {
@@ -9,12 +10,14 @@ class RequestDetails extends Component {
 		
 	}
 	render() {		
+		const request = this.props.request
 		return(
 			<div>Details:
-				{this.props.request.id !== undefined  
+				{request.id !== undefined  
 				? 	<div>
-						<div>{this.props.request.body}</div>
-						<Link to={"/dashboard/request"} onClick={this.createNewConversation}>HELP</Link>
+						<div>{request.title}</div>
+						<div className="text-break">{request.body}</div>
+						<Link to={"/dashboard/request"} onClick={this.createNewConversation}><Button>HELP</Button></Link>
 					</div>
 				: <div>No request selected</div>
 				}

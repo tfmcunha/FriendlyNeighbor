@@ -159,16 +159,28 @@ class Dashboard extends Component {
 							<Row>
 								<Col md={9}>
 									<div style={{height:"500px"}}>
-										<RequestMap onMapDrag={this.onMapDrag} currentLocation={this.state.currentLocation} handleShow={this.handleShow} requests={this.state.requests}/>
+										<RequestMap 
+											onMapDrag={this.onMapDrag} 
+											currentLocation={this.state.currentLocation} 
+											handleShow={this.handleShow} 
+											requests={this.state.requests}
+											handleRequest={this.handleRequest} 
+										/>
 									</div>
 								</Col>
 								<Col md={3}>
-									<RequestsList requests={this.state.requests} handleRequest={this.handleRequest} />
+									<RequestsList 
+										requests={this.state.requests} 
+										handleRequest={this.handleRequest} 
+									/>
 								</Col>
 							</Row>
 							<Row>
 								<Col>
-									<RequestDetail user_id={this.state.user.id} request={this.state.currentRequest} />    
+									<RequestDetail 
+										user_id={this.state.user.id} 
+										request={this.state.currentRequest} 
+									/>    
 								</Col>
 							</Row>
 						</Fragment>

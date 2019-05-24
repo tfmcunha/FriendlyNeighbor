@@ -73,31 +73,34 @@ class Chat extends Component {
     }
 
 	render() {	
-		console.log(this.state.response)
+		console.log("res",this.state.response)
 		return(
 			<Row>
 				<ActionCableConsumer
         	  		channel="ConversationsChannel"
           			onReceived={this.handleReceived}
-        		>		
-       				{this.state.response.map(message => (
-       					<div>{message.body}</div>
-       				))}
+           		>		       				
        			</ActionCableConsumer>
-
-       			<Form onSubmit={this.handleNewMessage}>
-				  <Form.Group as={Row} controlId="formPlaintextPassword">
-				    <Form.Label column sm="2">
-				      Message
-				    </Form.Label>
-				    <Col sm="10">
-				      <Form.Control type="text" placeholder="write here" name="body" value={this.state.message.body} onChange={this.handleChange}/>
-				    </Col>
-				  </Form.Group>
-				  <Button variant="primary" type="submit">
-				    Send
-				  </Button>
-				</Form>
+       			<Col>
+	       			<div className="vh-50">
+	       			{this.state.response.map(message => (
+	       					<div>{message.body}</div>
+	       				))}
+	       			</div>
+	       			<Form onSubmit={this.handleNewMessage}>
+					  <Form.Group as={Row} controlId="formPlaintext">
+					    <Form.Label column sm="2">
+					      Message
+					    </Form.Label>
+					    <Col sm="10">
+					      <Form.Control type="text" placeholder="write here" name="body" value={this.state.message.body} onChange={this.handleChange}/>
+					    </Col>
+					  </Form.Group>
+					  <Button variant="primary" type="submit">
+					    Send
+					  </Button>
+					</Form>
+				</Col>
 
 
 			</Row>

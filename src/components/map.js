@@ -8,18 +8,9 @@ class RequestMap extends Component {
 			showingInfoWindow: false,
 			activeMarker: {},
 			selectedPlace: {}
-		};    
-    	this.onMarkerClick = this.onMarkerClick.bind(this);
+		};        	
     	this.onMapClick = this.onMapClick.bind(this); 
     	this.dragtest = this.dragtest.bind(this);    	
-	}
-
-	onMarkerClick(props, marker) {
-		this.setState({
-			selectedPlace: props,
-			activeMarker: marker,
-			showingInfoWindow: true
-		})
 	}
 
 	onMapClick(props, map, e) {		
@@ -63,27 +54,15 @@ class RequestMap extends Component {
 				>
 
 		          	{this.props.requests.map(request => (
-		              <Marker
-		                      key={request.id}
-		                      name={request.title}
-		                      position={{lat: request.lat, lng: request.lng}}
-		                      icon={this.setMarkerColor(request.req_type)}
-		                      onClick={this.onMarkerClick} 
-
-		               />
-		          	
-
-		          	))
-		          }         
-
-			        <InfoWindow
-			        	marker = { this.state.activeMarker }
-			        	visible = { this.state.showingInfoWindow }
-			        >
-			        	<div>
-			        		<h4>{this.state.selectedPlace.name}</h4>
-			        	</div>
-			        </InfoWindow>
+		              	<Marker
+		                    key={request.id}
+		                    name={request.title}
+		                    position={{lat: request.lat, lng: request.lng}}
+		                    icon={this.setMarkerColor(request.req_type)}
+		                    onClick={(e) => this.props.handleRequest(request.id)} 
+		               	/>		          	
+		          		))
+		          	}     
 		        </Map> 
 
 		    

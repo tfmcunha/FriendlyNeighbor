@@ -138,7 +138,7 @@ class Profile extends Component {
 					<ListGroup>
 					{this.state.owned_requests !== undefined &&
 						this.state.owned_requests.map(request => (
-						<ListGroup.Item><Link to={"/dashboard/request"} onClick={(e) => this.props.handleOwnRequest(request)}>{request.title}</Link></ListGroup.Item>
+						<ListGroup.Item action><Link to={"/dashboard/request"} onClick={(e) => this.props.handleOwnRequest(request)}>{request.title}</Link></ListGroup.Item>
 					))}
 					</ListGroup>
 				</Col>
@@ -148,7 +148,7 @@ class Profile extends Component {
 					<ListGroup>
 					{this.props.user.volunteers !== undefined &&
 						this.props.user.volunteers.map(volunteer => (							
-						<ListGroup.Item><Link to={"/dashboard/request"} onClick={(e) => this.props.handleRequest(volunteer.request_id)} >{volunteer.owner}</Link></ListGroup.Item>
+						<ListGroup.Item action><Link to={"/dashboard/request"} onClick={(e) => this.props.handleRequest(volunteer.request_id)} >{volunteer.owner}</Link></ListGroup.Item>
 					))}
 					</ListGroup>
 				</Col>

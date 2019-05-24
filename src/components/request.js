@@ -1,20 +1,23 @@
 import React, { Component, Fragment } from 'react';
 import { Redirect } from 'react-router-dom';
-import {Row, Col, Image } from 'react-bootstrap';
+import {Row, Col, Image, ListGroup } from 'react-bootstrap';
 import Auth from '../modules/auth';
 import { ActionCableProvider } from 'react-actioncable-provider';
 import Chat from './chat';
 
 class Request extends Component {
 	render() {	
-		const request = this.props.request;	
-		console.log("req", request)	
+		const request = this.props.request;			
 		return(
 			<Row>
 				{request.id === undefined && <Redirect to="/dashboard" />}
 				<Col md={6}>
 					<div>Details:</div>
-					<div>{request.title}</div>
+					<ListGroup variant="flush">
+						<ListGroup.Item>{request.req}</ListGroup.Item>
+						<ListGroup.Item>{request.title}</ListGroup.Item>
+						<ListGroup.Item className="text-break">{request.body}</ListGroup.Item>
+					</ListGroup>
 				</Col>
 				 
 				
@@ -26,7 +29,8 @@ class Request extends Component {
 				{this.props.user_id === request.user_id &&
 				<Col md={6}>
 					<div>Volunteers:</div>
-					{request.volunteers.map(volunteer => (
+					{request.volunteers !== undefined &&
+						request.volunteers.map(volunteer => (
 						<div>{volunteer.username}</div>
 					))}
 					

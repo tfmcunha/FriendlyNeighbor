@@ -10,7 +10,8 @@ class RequestMap extends Component {
 			selectedPlace: {}
 		};    
     	this.onMarkerClick = this.onMarkerClick.bind(this);
-    	this.onMapClick = this.onMapClick.bind(this);    	
+    	this.onMapClick = this.onMapClick.bind(this); 
+    	this.dragtest = this.dragtest.bind(this);    	
 	}
 
 	onMarkerClick(props, marker) {
@@ -36,8 +37,17 @@ class RequestMap extends Component {
   		return icon
 	}
 
+	dragtest(props, map) {
+		let newCenter = {lat:"", lng:""};
+		newCenter["lat"] = map.getCenter().lat();
+		newCenter["lng"] = map.getCenter().lng();
+		const { onMapDrag } = this.props;
+		onMapDrag(newCenter)
+	}
+
+
+
 	render() {  
-		console.log(this.props)
 		return (
 			
 
@@ -46,7 +56,10 @@ class RequestMap extends Component {
 					initialCenter={this.props.currentLocation}
 					center={this.props.currentLocation}
 					zoom={15}
+					zoomControl={false}
+					scrollwheel={false}
 					onClick={this.onMapClick}
+					onDragend={this.dragtest}
 				>
 
 		          	{this.props.requests.map(request => (
@@ -55,7 +68,9 @@ class RequestMap extends Component {
 		                      name={request.title}
 		                      position={{lat: request.lat, lng: request.lng}}
 		                      icon={this.setMarkerColor(request.req_type)}
-		                      onClick={this.onMarkerClick} />
+		                      onClick={this.onMarkerClick} 
+
+		               />
 		          	
 
 		          	))

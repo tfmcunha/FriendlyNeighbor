@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Button, Modal } from 'react-bootstrap';
 import LoginForm from './loginform';
 import Register from './register';
+import './teste.css';
 
 class Splash extends Component {
 	constructor() {
@@ -36,25 +37,28 @@ class Splash extends Component {
 	render() {
 		return (
 			<div>
-				
-				<Button variant="primary" onClick={this.handleShowLogin}>
-					Login
-				</Button>
+				<div className="d-flex justify-content-center align-items-center vh-100">
+					<div className="test">				
+						<Button variant="primary" onClick={this.handleShowLogin}>
+							Login
+						</Button>
 
-				<Button variant="primary" onClick={this.handleShowRegister}>
-					Register
-				</Button>
+						<Button variant="primary" onClick={this.handleShowRegister}>
+							Register
+						</Button>
 
-				<Modal size="sm" show={this.state.showLogin} onHide={this.handleCloseLogin}>
-					<LoginForm />					
-				</Modal>
+						<Modal size="sm" show={this.state.showLogin} onHide={this.handleCloseLogin}>
+							<LoginForm />					
+						</Modal>
 
-				<Modal size="lg" show={this.state.showRegister} onHide={this.handleCloseRegister}>
-					<Register />
-				</Modal>
+						<Modal size="lg" show={this.state.showRegister} onHide={this.handleCloseRegister}>
+							<Register />
+						</Modal>
 
+					</div>
+				</div>
 			</div>
-			);
+		);
 	}
 }
 

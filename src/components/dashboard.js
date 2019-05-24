@@ -14,6 +14,7 @@ class Dashboard extends Component {
 	constructor() {
 		super();
 		this.state = {
+			currentLocation: {},
 			user: {},
 			requests: [],
 			currentRequest: {},	
@@ -21,16 +22,18 @@ class Dashboard extends Component {
 			show: false
 		}
 		this.handleLogout = this.handleLogout.bind(this);
-		this.handleRequest = this.handleRequest.bind(this);
-		this.findRequest = this.findRequest.bind(this);
+		this.handleRequest = this.handleRequest.bind(this);		
+		this.handleOwnRequest = this.handleOwnRequest.bind(this);		
 		this.handleClose = this.handleClose.bind(this);
 		this.handleShow = this.handleShow.bind(this);
+		this.onMapDrag = this.onMapDrag.bind(this);
 	}
 
 	componentWillMount() {   
-		this.fetchProfile();
-		this.fetchRequests();
 		this.getLocation(); 
+		this.fetchProfile();
+		
+		
 	}
 
 
@@ -58,13 +61,17 @@ class Dashboard extends Component {
 		})	
 	}
 
-	fetchRequests() {
+	fetchRequests() {	
+		const lat = this.state.currentLocation.lat;
+		const lng = this.state.currentLocation.lng;
 		fetch('http://localhost:3001/requests', { 
 			method: 'GET',
 			headers: {	        
 				token: Auth.getToken(),
-				'Authorization': `Token ${Auth.getToken()}`
-			}
+				'Authorization': `Token ${Auth.getToken()}`,
+				"lat":lat, 
+				"lng":lng				
+			}	
 		})
 		.then(res => res.json())
 		.then(json => {
@@ -72,39 +79,53 @@ class Dashboard extends Component {
 				requests: json
 			});
 			
-		})		
-
+		})			
 	}
 
-	getLocation() {
+	onMapDrag(newCenter) {	
+		console.log(newCenter);	
+		this.setState({
+			currentLocation: newCenter
+		}, () => this.fetchRequests()
+		)
+	}
+
+	getLocation() {		
 		if (navigator && navigator.geolocation) {
             navigator.geolocation.getCurrentPosition((pos) => {
                 const coords = pos.coords;
-                this.setState({
-                    currentLocation: {
-                        lat: coords.latitude,
-                        lng: coords.longitude
-                    }
-                })
+                this.setState({                	
+	                    currentLocation: {
+	                        lat: coords.latitude,
+	                        lng: coords.longitude
+	                    }	                
+                }, () => this.fetchRequests())
             })
-        }        
+        }
+
+        
+
 	}
 
 	handleLogout() {
 		Auth.deauthenticateUser();
 	}
 
-	handleRequest(request) {
-		this.setState({
-			currentRequest:request			
-		})
-	}
+	
 
-	findRequest(request_id) {
+	handleRequest(request_id) {
 		let currentRequest = this.state.requests.find(request => request.id === request_id)	
 		this.setState({
 			currentRequest
-		})
+		})	
+
+	}
+
+	handleOwnRequest(request) {
+		let currentRequest = request;		
+		this.setState({
+			currentRequest
+		})	
 
 	}
 
@@ -122,7 +143,7 @@ class Dashboard extends Component {
 	}
 
 	render() {		
-
+		console.log(this.state.user)
 		return (
 			<Fragment>
 				{!(Auth.isUserAuthenticated()) &&
@@ -138,7 +159,7 @@ class Dashboard extends Component {
 							<Row>
 								<Col md={9}>
 									<div style={{height:"500px"}}>
-										<RequestMap currentLocation={this.state.currentLocation} handleShow={this.handleShow} requests={this.state.requests}/>
+										<RequestMap onMapDrag={this.onMapDrag} currentLocation={this.state.currentLocation} handleShow={this.handleShow} requests={this.state.requests}/>
 									</div>
 								</Col>
 								<Col md={3}>
@@ -155,7 +176,7 @@ class Dashboard extends Component {
 				/> 
 
 				<Route 
-					exact path={`/dashboard/request/${this.state.currentRequest.id}`}
+					exact path={"/dashboard/request"}
 					render={() => 					
 						<Request user_id={this.state.user.id} request={this.state.currentRequest} />      					      				
 					}
@@ -164,7 +185,7 @@ class Dashboard extends Component {
 				<Route 
 					exact path="/dashboard/profile"
 					render={() => 					
-						<Profile user={this.state.user} handleRequest={this.handleRequest} findRequest={this.findRequest} />      					      				
+						<Profile user={this.state.user} handleOwnRequest={this.handleOwnRequest} handleRequest={this.handleRequest}/>      					      				
 					}
 				/>   
 

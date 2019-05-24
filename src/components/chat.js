@@ -17,6 +17,14 @@ class Chat extends Component {
 	}
 
 	componentWillMount(){
+		if (this.props.sender_id === this.props.recipient_id) {
+			console.log("standing by...")
+		} else {
+			this.handleConversation()
+		}
+	}
+
+	handleConversation() {
 		const conversation = {request_id: this.props.request_id, sender_id: this.props.sender_id, recipient_id: this.props.recipient_id}
 		fetch('http://localhost:3001/conversations', { 
        		method: 'POST', 

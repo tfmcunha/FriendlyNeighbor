@@ -9,6 +9,7 @@ class Profile extends Component {
 	constructor() {
 		super();
 		this.state = {
+			owned_requests: [],
 			user: {},
 			govid: null,
 			errors: {},
@@ -17,6 +18,24 @@ class Profile extends Component {
 		this.handleRegister=this.handleRegister.bind(this);	
 		this.handleFile=this.handleFile.bind(this); 
 
+	}
+
+	componentWillMount() {
+		fetch('http://localhost:3001/owner', { 
+			method: 'GET',
+			headers: {	        
+				token: Auth.getToken(),
+				'Authorization': `Token ${Auth.getToken()}`			
+			}	
+		})
+		.then(res => res.json())
+		.then(json => {
+			this.setState({
+				owned_requests: json
+			});
+			console.log("fetch",json)
+			
+		})
 	}
 
 	componentDidMount() {		
@@ -117,9 +136,9 @@ class Profile extends Component {
 				<Col md={4}>
 					<h2 className="text-center">I need help:</h2>
 					<ListGroup>
-					{this.props.user.requests !== undefined &&
-						this.props.user.requests.map(request => (
-						<ListGroup.Item><Link to={`/dashboard/request/${request.id}`} onClick={(e) => this.props.handleRequest(request.id)}>{request.title}</Link></ListGroup.Item>
+					{this.state.owned_requests !== undefined &&
+						this.state.owned_requests.map(request => (
+						<ListGroup.Item><Link to={"/dashboard/request"} onClick={(e) => this.props.handleOwnRequest(request)}>{request.title}</Link></ListGroup.Item>
 					))}
 					</ListGroup>
 				</Col>
@@ -129,7 +148,7 @@ class Profile extends Component {
 					<ListGroup>
 					{this.props.user.volunteers !== undefined &&
 						this.props.user.volunteers.map(volunteer => (							
-						<ListGroup.Item><Link to={`/dashboard/request/${volunteer.request_id}`} onClick={(e) => this.props.findRequest(volunteer.request_id)} >{volunteer.request_id}</Link></ListGroup.Item>
+						<ListGroup.Item><Link to={"/dashboard/request"} onClick={(e) => this.props.handleRequest(volunteer.request_id)} >{volunteer.owner}</Link></ListGroup.Item>
 					))}
 					</ListGroup>
 				</Col>

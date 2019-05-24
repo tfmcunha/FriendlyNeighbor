@@ -10,7 +10,7 @@ class RequestsList extends Component {
 
 		      			this.props.requests.map(request => {
 
-			      				return <div key={request.id} onClick={(e) => this.props.handleRequest(request)}>{request.title}</div>
+			      				return <div key={request.id} onClick={(e) => this.props.handleRequest(request.id)}>{request.title}</div>
 			      			 
 		      		})} 
 			</div>

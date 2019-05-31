@@ -128,7 +128,11 @@ class Chat extends Component {
 		       			{messages !== undefined &&
 		       				messages.map(message => (
 		       					<div key={message.id} className="d-flex ">	       						
-		       						<div className={`${this.setUserMessageLayout(message.user_id)} p-2 my-2 message`}>{message.body}</div>
+		       						<div className={`${this.setUserMessageLayout(message.user_id)} p-2 my-2 message`}>
+		       							<span className="d-block user">{message.user_name} says:</span>
+		       							<span>{message.body}</span>
+
+		       						</div>
 		       					</div>
 		       				))}
 		       			</div>

@@ -10,13 +10,14 @@ class Profile extends Component {
 		super();
 		this.state = {
 			owned_requests: [],
+			isVolunteer: [],
 			user: {},
 			govid: null,
 			errors: {},
 		}
 		this.handleChange=this.handleChange.bind(this);	
 		this.handleRegister=this.handleRegister.bind(this);	
-		this.handleFile=this.handleFile.bind(this); 
+		
 
 	}
 
@@ -31,21 +32,12 @@ class Profile extends Component {
 		.then(res => res.json())
 		.then(json => {
 			this.setState({
-				owned_requests: json
-			});
-			console.log("fetch",json)
-			
+				owned_requests: json.requests,
+				isVolunteer: json.isVolunteer
+			});			
 		})
-	}
 
-	componentDidMount() {		
-		const user = this.props.user;
-		this.setState({
-			user: {
-				"first_name": user.first_name,
-				"last_name": user.last_name
-			}
-		})
+		
 	}
 
 	handleChange(e) {
@@ -56,101 +48,76 @@ class Profile extends Component {
 		});
 	}	
 
-	handleFile(e) {    
-		const govid = e.target.files[0];
-		this.setState({ 
-			govid
-		}); 
-	}  
-
-	validateForm() {
-		const user = this.state.user;		
-		let errors ={};
-		let formIsValid = true;
-
-		if (!user["first_name"]) {
-			formIsValid = false;
-			errors["first_name"] = "*Enter your first name!";
-		}
-
-		if (!user["last_name"]) {
-			formIsValid = false;
-			errors["last_name"] = "*Enter your last name!";
-		} 
-
-		this.setState({
-			errors
-		})
-
-		return formIsValid;
-
-	}
-
 	handleRegister(e) {
-		e.preventDefault();	
-		console.log(this.state.user)	
+		fetch(`http://localhost:3001/users/${this.props.user.id}`,{
+			method: 'PATCH',
+			headers: {
+				'Content-Type': 'application/json', 	       
+				token: Auth.getToken(),
+				'Authorization': `Token ${Auth.getToken()}`			
+			},
+			body: JSON.stringify(this.state.user)
+		})
+		.then(res => res.json())
+		.then(json => {console.log(json)})	
 	}
 
 	
 
 	render() {
-		console.log("user",this.props.user)
 		return (
 			<Row>
 				{!(Auth.isUserAuthenticated()) &&
 					<Redirect to="/" />
 				}
 				<Col md={4}>
-					<h2 className="text-center">Edit your details</h2>
-					<Form onSubmit={this.handleRegister}>		      		
-						<Form.Group>
-							<Form.Label>E-mail</Form.Label>
-							<Form.Control type="email" value={this.props.user.email} disabled/>				
-						</Form.Group> 
+					<div className="mt-2">
+						<h3 className="text-center">Edit your details</h3>
+						<Form onSubmit={this.handleRegister}>		      		
+							<Form.Group>
+								<Form.Label>E-mail</Form.Label>
+								<Form.Control type="email" defaultValue={this.props.user.email} disabled/>				
+							</Form.Group> 
 
-						<Form.Group>
-							<Form.Label>First name</Form.Label>
-							<Form.Control type="text" name="first_name" value={this.state.user.first_name} onChange={this.handleChange}/>
-							<Form.Text className="text-danger">{this.state.errors.first_name}</Form.Text>
-						</Form.Group> 
+							<Form.Group>
+								<Form.Label>First name</Form.Label>
+								<Form.Control type="text" defaultValue={this.props.user.first_name} name="first_name" onChange={this.handleChange}/>
+								<Form.Text className="text-danger">{this.state.errors.first_name}</Form.Text>
+							</Form.Group> 
 
-						<Form.Group>
-							<Form.Label>Last name</Form.Label>
-							<Form.Control type="text" name="last_name" value={this.state.user.last_name} onChange={this.handleChange}/>
-							<Form.Text className="text-danger">{this.state.errors.last_name}</Form.Text>
-						</Form.Group> 
+							<Form.Group>
+								<Form.Label>Last name</Form.Label>
+								<Form.Control type="text" name="last_name" defaultValue={this.props.user.last_name} onChange={this.handleChange}/>
+								<Form.Text className="text-danger">{this.state.errors.last_name}</Form.Text>
+							</Form.Group>   
 
-						<Form.Group>
-							<Form.Label>Password</Form.Label>
-							<Form.Control type="password" name="password" placeholder="Leave blank if unchanged" value={this.state.user.password} onChange={this.handleChange}/>		      		
-							
-						</Form.Group>     
-
-						
-
-						<Button variant="primary" type="submit">Save</Button>
-					</Form>
-					<Link to={this.props.user.govidurl}>doc</Link>
+							<Button variant="primary" type="submit">Save</Button>
+						</Form>
+					</div>
 				</Col>
 
 				<Col md={4}>
-					<h2 className="text-center">I need help:</h2>
-					<ListGroup>
-					{this.state.owned_requests !== undefined &&
-						this.state.owned_requests.map(request => (
-						<ListGroup.Item action><Link to={"/dashboard/request"} onClick={(e) => this.props.handleOwnRequest(request)}>{request.title}</Link></ListGroup.Item>
-					))}
-					</ListGroup>
+					<div className="mt-2">
+						<h3 className="text-center">I need help:</h3>
+						<ListGroup>
+						{this.state.owned_requests !== undefined &&
+							this.state.owned_requests.map(request => (
+							<ListGroup.Item action key={request.id}><Link to={"/dashboard/request"} onClick={(e) => this.props.handleOwnRequest(request)}>{request.title}</Link></ListGroup.Item>
+						))}
+						</ListGroup>
+					</div>
 				</Col>
 
 				<Col md={4}>
-					<h2 className="text-center">Im helping:</h2>
-					<ListGroup>
-					{this.props.user.volunteers !== undefined &&
-						this.props.user.volunteers.map(volunteer => (							
-						<ListGroup.Item action><Link to={"/dashboard/request"} onClick={(e) => this.props.handleRequest(volunteer.request_id)} >{volunteer.owner}</Link></ListGroup.Item>
-					))}
-					</ListGroup>
+					<div className="mt-2">
+						<h3 className="text-center">Im helping:</h3>
+						<ListGroup>
+						{this.state.isVolunteer !== undefined &&
+							this.state.isVolunteer.map(volunteer => (							
+							<ListGroup.Item action key={volunteer.id}><Link to={"/dashboard/request"} onClick={(e) => this.props.handleRequest(volunteer.id)} >{volunteer.title}</Link></ListGroup.Item>
+						))}
+						</ListGroup>
+					</div>
 				</Col>
 
 			</Row>

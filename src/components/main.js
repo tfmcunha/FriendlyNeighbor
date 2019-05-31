@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import Auth from '../modules/auth';
+import Footer from './footer';
 import Splash from './splash';
 import Dashboard from './dashboard';
+import Help from './help';
 
 class Main extends Component {
 	constructor() {
@@ -42,6 +44,12 @@ class Main extends Component {
 					render={() => <Dashboard user={this.state.user} handleAuth={this.handleAuthentication} /> } 
 				/>      
 
+				<Route 
+					path="/help"
+					component={Help}
+				/>
+
+				<Footer />
 			</div>
 		);
 	}

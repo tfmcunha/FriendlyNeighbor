@@ -62,7 +62,7 @@ class LoginForm extends Component {
       			{Auth.isUserAuthenticated() &&
       				<Redirect to="/dashboard" />
       			}
-	      			<div className="text-center">LOGIN</div>
+	      			<h3 className="text-center">LOGIN</h3>
 	      			<Form onSubmit={this.handleLogin}>
 	      				<Form.Group>
 	      					<Form.Label>E-mail</Form.Label>

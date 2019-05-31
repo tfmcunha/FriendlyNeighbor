@@ -102,8 +102,7 @@ class NewRequest extends Component {
 						<Form.Check type="radio" label="Task" name="req_type" value="0" onChange={this.handleChange} />
 						<Form.Check type="radio" label="Material" name="req_type" value="1" onChange={this.handleChange} />
 						<Form.Text className="text-danger">{this.state.errors.req_type}</Form.Text>
-					</Form.Group>
-					<div>{this.props.newLocation.lat}</div>
+					</Form.Group>					
 					<Button variant="primary" type="submit">Send</Button>
 					<Button variant="secondary" onClick={this.props.close}>Close</Button>
 				</Form>

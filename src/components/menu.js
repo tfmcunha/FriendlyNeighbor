@@ -1,8 +1,7 @@
 import React, { Component, Fragment } from 'react';
-import { Link } from 'react-router-dom';
-import { Navbar, Nav, NavDropdown,  Button } from 'react-bootstrap';
+import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import Auth from '../modules/auth';
-import CancelAcc from './cancelacc';
+import '../css/menu.css';
 
 class Menu extends Component {
 	constructor() {
@@ -37,16 +36,14 @@ class Menu extends Component {
     	return (    		
      		<Fragment>
 
-	     		<Navbar bg="light" expand="lg">
-		     		<Navbar.Brand href="/">Friendly Neighbour</Navbar.Brand>
+	     		<Navbar bg="light" expand="sm" className="menu" >
+		     		<Navbar.Brand className="brand p-2" href="/">Friendly Neighbour</Navbar.Brand>
 		     		<Navbar.Toggle aria-controls="basic-navbar-nav" />
 		     		<Navbar.Collapse id="basic-navbar-nav">
 			     		<Nav className="ml-auto">			     		
 				     		
 				     		<NavDropdown title={`Hello, ${this.props.user.first_name}`} id="basic-nav-dropdown">
 				     		<NavDropdown.Item href="/dashboard/profile">Profile</NavDropdown.Item>
-				     		<NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-				     		<NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
 				     		<NavDropdown.Divider />
 				     		<NavDropdown.Item href="/" onClick={this.handleLogout}>Logout</NavDropdown.Item>
 				     		</NavDropdown>

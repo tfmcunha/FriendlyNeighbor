@@ -136,7 +136,7 @@ class Register extends Component {
       			{Auth.isUserAuthenticated() &&
       				<Redirect to="/dashboard" />
       			}
-            <div className="text-center">Create a new account</div>
+            <h3 className="text-center">Create a new account</h3>
       			<Form onSubmit={this.handleRegister}>		      		
               <Form.Group>
                 <Form.Label>E-mail</Form.Label>

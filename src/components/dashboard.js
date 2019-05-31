@@ -9,6 +9,7 @@ import RequestDetail from './requestdetail';
 import Request from './request';
 import Profile from './profile';
 import NewRequest from './newrequest';
+import '../css/dashboard.css';
 
 class Dashboard extends Component {
 	constructor() {
@@ -102,9 +103,6 @@ class Dashboard extends Component {
                 }, () => this.fetchRequests())
             })
         }
-
-        
-
 	}
 
 	handleLogout() {
@@ -126,6 +124,7 @@ class Dashboard extends Component {
 		this.setState({
 			currentRequest
 		})	
+		console.log(request)
 
 	}
 
@@ -143,7 +142,6 @@ class Dashboard extends Component {
 	}
 
 	render() {		
-		console.log(this.state.user)
 		return (
 			<Fragment>
 				{!(Auth.isUserAuthenticated()) &&
@@ -158,7 +156,7 @@ class Dashboard extends Component {
 						<Fragment>
 							<Row>
 								<Col md={9}>
-									<div style={{height:"500px"}}>
+									<div className="map-container">
 										<RequestMap 
 											onMapDrag={this.onMapDrag} 
 											currentLocation={this.state.currentLocation} 
@@ -169,18 +167,22 @@ class Dashboard extends Component {
 									</div>
 								</Col>
 								<Col md={3}>
-									<RequestsList 
-										requests={this.state.requests} 
-										handleRequest={this.handleRequest} 
-									/>
+									<div className="m-2 p-2">
+										<RequestsList 
+											requests={this.state.requests} 
+											handleRequest={this.handleRequest} 
+										/>
+									</div>
 								</Col>
 							</Row>
 							<Row>
 								<Col>
-									<RequestDetail 
-										user_id={this.state.user.id} 
-										request={this.state.currentRequest} 
-									/>    
+									<div className="m-2 p-2">
+										<RequestDetail 
+											user_id={this.state.user.id} 
+											request={this.state.currentRequest} 
+										/>    
+									</div>
 								</Col>
 							</Row>
 						</Fragment>

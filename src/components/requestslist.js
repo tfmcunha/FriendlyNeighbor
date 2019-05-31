@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { ListGroup } from 'react-bootstrap';
-import './teste.css';
 
 class RequestsList extends Component {		
 	render() {

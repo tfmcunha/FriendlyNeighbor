@@ -1,0 +1,17 @@
+.chatbox {
+	height: 300px;
+	padding: 10px;
+}
+
+.message {	
+	border-radius: 5px;
+	color: white;
+}
+
+.out {
+	background-color: green;
+}
+
+.in {
+	background-color: grey;
+}

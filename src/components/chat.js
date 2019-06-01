@@ -57,6 +57,7 @@ class Chat extends Component {
 	    		conversation_id: json.id,
 	    		conversation: json.messages
 	    	})
+	    	console.log("conv", json)
 	    })
 	}
 
@@ -69,9 +70,9 @@ class Chat extends Component {
 
 	handleReceived(response) {
 		this.setState({	
-				conversation_id: response.id,
-				conversation: response.messages			
+				conversation: response			
 		});		
+		console.log("res",response)
 		
     }
 
@@ -118,7 +119,8 @@ class Chat extends Component {
 		return(
 			<Row>
 				<ActionCableConsumer
-        	  		channel="ConversationsChannel"
+        	  		channel={{channel: "ConversationsChannel",
+        	  				conversation: this.state.conversation_id}}
           			onReceived={this.handleReceived}
            		>		       				
        			</ActionCableConsumer>

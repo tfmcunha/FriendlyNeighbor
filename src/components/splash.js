@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Row, Col, Button, Modal, Image } from 'react-bootstrap';
+import { ActionCableProvider } from 'react-actioncable-provider';
+import Count from './count';
 import LoginForm from './loginform';
 import Register from './register';
 import '../css/splash.css';
@@ -37,6 +39,10 @@ class Splash extends Component {
 	render() {
 		return (
 			<div className="cover">
+				<ActionCableProvider url={"http://localhost:3001/cable"}>
+					<Count />
+				</ActionCableProvider>
+				
 				<Row>
 					<Col lg={6} className="d-none d-lg-block">
 						<div className="d-flex justify-content-center align-items-center vh-100">

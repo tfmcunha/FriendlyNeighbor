@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Redirect, Link } from 'react-router-dom';
 import Auth from '../modules/auth';
 import { Row, Col, Form, Button, ListGroup } from 'react-bootstrap';
@@ -66,61 +66,65 @@ class Profile extends Component {
 
 	render() {
 		return (
-			<Row>
-				{!(Auth.isUserAuthenticated()) &&
-					<Redirect to="/" />
-				}
-				<Col md={4}>
-					<div className="mt-2">
-						<h3 className="text-center">Edit your details</h3>
-						<Form onSubmit={this.handleRegister}>		      		
-							<Form.Group>
-								<Form.Label>E-mail</Form.Label>
-								<Form.Control type="email" defaultValue={this.props.user.email} disabled/>				
-							</Form.Group> 
+			<Fragment>
+				<Link to="/dashboard"><h5>Dashboard</h5></Link>
+				<Row>
+					{!(Auth.isUserAuthenticated()) &&
+						<Redirect to="/" />
+					}
 
-							<Form.Group>
-								<Form.Label>First name</Form.Label>
-								<Form.Control type="text" defaultValue={this.props.user.first_name} name="first_name" onChange={this.handleChange}/>
-								<Form.Text className="text-danger">{this.state.errors.first_name}</Form.Text>
-							</Form.Group> 
+					<Col md={4}>
+						<div className="mt-2">
+							<h3 className="text-center">Edit your details</h3>
+							<Form onSubmit={this.handleRegister}>		      		
+								<Form.Group>
+									<Form.Label>E-mail</Form.Label>
+									<Form.Control type="email" defaultValue={this.props.user.email} disabled/>				
+								</Form.Group> 
 
-							<Form.Group>
-								<Form.Label>Last name</Form.Label>
-								<Form.Control type="text" name="last_name" defaultValue={this.props.user.last_name} onChange={this.handleChange}/>
-								<Form.Text className="text-danger">{this.state.errors.last_name}</Form.Text>
-							</Form.Group>   
+								<Form.Group>
+									<Form.Label>First name</Form.Label>
+									<Form.Control type="text" defaultValue={this.props.user.first_name} name="first_name" onChange={this.handleChange}/>
+									<Form.Text className="text-danger">{this.state.errors.first_name}</Form.Text>
+								</Form.Group> 
 
-							<Button variant="primary" type="submit">Save</Button>
-						</Form>
-					</div>
-				</Col>
+								<Form.Group>
+									<Form.Label>Last name</Form.Label>
+									<Form.Control type="text" name="last_name" defaultValue={this.props.user.last_name} onChange={this.handleChange}/>
+									<Form.Text className="text-danger">{this.state.errors.last_name}</Form.Text>
+								</Form.Group>   
 
-				<Col md={4}>
-					<div className="mt-2">
-						<h3 className="text-center">I need help:</h3>
-						<ListGroup>
-						{this.state.owned_requests !== undefined &&
-							this.state.owned_requests.map(request => (
-							<ListGroup.Item action key={request.id}><Link to={"/dashboard/request"} onClick={(e) => this.props.handleOwnRequest(request)}>{request.title}</Link></ListGroup.Item>
-						))}
-						</ListGroup>
-					</div>
-				</Col>
+								<Button variant="primary" type="submit">Save</Button>
+							</Form>
+						</div>
+					</Col>
 
-				<Col md={4}>
-					<div className="mt-2">
-						<h3 className="text-center">Im helping:</h3>
-						<ListGroup>
-						{this.state.isVolunteer !== undefined &&
-							this.state.isVolunteer.map(volunteer => (							
-							<ListGroup.Item action key={volunteer.id}><Link to={"/dashboard/request"} onClick={(e) => this.props.handleRequest(volunteer.id)} >{volunteer.title}</Link></ListGroup.Item>
-						))}
-						</ListGroup>
-					</div>
-				</Col>
+					<Col md={4}>
+						<div className="mt-2">
+							<h3 className="text-center">I need help:</h3>
+							<ListGroup>
+							{this.state.owned_requests !== undefined &&
+								this.state.owned_requests.map(request => (
+								<ListGroup.Item action key={request.id}><Link to={"/dashboard/request"} onClick={(e) => this.props.handleOwnRequest(request)}>{request.title}</Link></ListGroup.Item>
+							))}
+							</ListGroup>
+						</div>
+					</Col>
 
-			</Row>
+					<Col md={4}>
+						<div className="mt-2">
+							<h3 className="text-center">Im helping:</h3>
+							<ListGroup>
+							{this.state.isVolunteer !== undefined &&
+								this.state.isVolunteer.map(volunteer => (							
+								<ListGroup.Item action key={volunteer.id}><Link to={"/dashboard/request"} onClick={(e) => this.props.handleRequest(volunteer.id)} >{volunteer.title}</Link></ListGroup.Item>
+							))}
+							</ListGroup>
+						</div>
+					</Col>
+
+				</Row>
+			</Fragment>
 		);
 	}
 }

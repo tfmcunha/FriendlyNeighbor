@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Map, Marker, GoogleApiWrapper } from 'google-maps-react';
 
 class RequestMap extends Component {
@@ -40,7 +40,7 @@ class RequestMap extends Component {
 
 	render() {  
 		return (
-			
+			<Fragment>
 
 				<Map 
 					google= {this.props.google}           
@@ -64,8 +64,7 @@ class RequestMap extends Component {
 		          		))
 		          	}     
 		        </Map> 
-
-		    
+		    </Fragment>		    
         );
 	}
 }

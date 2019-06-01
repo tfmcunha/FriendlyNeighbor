@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
@@ -6,7 +6,8 @@ class RequestDetails extends Component {
 	render() {		
 		const request = this.props.request
 		return(
-			<div>Details:
+			<Fragment>
+				<h4>Details:</h4>
 				{request.id !== undefined  
 				? 	<div>
 						<div>{request.title}</div>
@@ -15,7 +16,7 @@ class RequestDetails extends Component {
 					</div>
 				: <div>No request selected</div>
 				}
-			</div>
+			</Fragment>
 		);
 	}
 }

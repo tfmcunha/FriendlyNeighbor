@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
+import { MdDeleteForever } from "react-icons/md";
+import { FaUserAlt, FaTasks, FaInfo } from "react-icons/fa";
 import {Row, Col, Image, ListGroup, Button } from 'react-bootstrap';
 import Auth from '../modules/auth';
 import { ActionCableProvider } from 'react-actioncable-provider';
 import Chat from './chat';
+import '../css/request.css';
 
 class Request extends Component {
 	constructor() {
@@ -11,9 +14,10 @@ class Request extends Component {
 		this.state = {
 			selected:"",
 			fulfilled: false,
-			conversationLoaded: false
+			redirect: false,
 		};
 		this.handleFulfilled = this.handleFulfilled.bind(this);
+		this.deleteVolunteer = this.deleteVolunteer.bind(this);
 	}
 
 	selectVolunteer = (id) => {
@@ -23,7 +27,7 @@ class Request extends Component {
 	handleFulfilled(e) {
 		const status = {};
 		status["fulfilled"] = true;		
-		e.preventDefault();
+		//e.preventDefault();
 		fetch(`http://localhost:3001/requests/${this.props.request.id}`,{
 			method: 'PATCH',
 			headers: {
@@ -34,20 +38,33 @@ class Request extends Component {
 			body: JSON.stringify(status)
 		})
 		.then(res => res.json())
-		.then(json => {console.log("done")})
+		.then(json => {this.setState({redirect: true})})
+	}
+
+	deleteVolunteer(id) {
+		fetch(`http://localhost:3001/volunteers/${id}`,{
+			method: 'delete',
+			headers: {				
+				token: Auth.getToken(),
+				'Authorization': `Token ${Auth.getToken()}`			
+			},
+		})
+		.then(res => res.json())
+		.then(json => {console.log("ok")})
 	}
 
 	render() {	
 		const request = this.props.request;	
 		return(
 			<Row className="my-3">
-				{request.id === undefined && <Redirect to="/dashboard" />}
+				{(request.id === undefined || this.state.redirect) && <Redirect to="/dashboard" />}
 				<Col md={6}>
-					<div>Details:</div>
+					<h4>Details:</h4>
 					<ListGroup variant="flush">
-						<ListGroup.Item>{request.req}</ListGroup.Item>
-						<ListGroup.Item>{request.title}</ListGroup.Item>
-						<ListGroup.Item className="text-break">{request.body}</ListGroup.Item>
+						<ListGroup.Item><FaUserAlt /> </ListGroup.Item>
+						<ListGroup.Item>{request.req} </ListGroup.Item>
+						<ListGroup.Item><FaInfo /> {request.title}</ListGroup.Item>
+						<ListGroup.Item className="text-break"><FaTasks /> {request.body}</ListGroup.Item>
 					
 						<ListGroup.Item className="mx-auto">
 							<Image src={`https://maps.googleapis.com/maps/api/staticmap?center=${request.lat},${request.lng}&zoom=17&size=400x200&maptype=roadmap&markers=color:blue%7C${request.lat},${request.lng}&key=AIzaSyBqkhorIWv6NGUw4xhnxjKa6x6YWdffLzo`} fluid/>
@@ -63,18 +80,21 @@ class Request extends Component {
 				<div>	
 					
 
-					<div>
-						<div>Volunteers:</div>
+					<ListGroup>
+						<h4>Volunteers:</h4>
 						{request.volunteers !== undefined &&
 							request.volunteers.map(volunteer => (
-							<div key={volunteer.id} onClick={(e) => this.selectVolunteer(volunteer.user_id)}>{volunteer.username}</div>
+							<Row key={volunteer.id} >
+								<Col xs={8}><ListGroup.Item className="py-1" action onClick={(e) => this.selectVolunteer(volunteer.user_id)}>{volunteer.username}</ListGroup.Item></Col>
+								<Col xs={4}><Button variant="danger" size="sm" onClick={(e) => this.deleteVolunteer(volunteer.id)}><MdDeleteForever className="delete"/></Button></Col> 
+							</Row>
 						))}								
-					</div>
+					</ListGroup>
 				</div>	
 				}
 				
-					<ActionCableProvider url={`http://localhost:3001/cable?auth_token=${Auth.getToken()}`}>
-						<Chat request_id={this.props.request.id} selected={this.state.selected} conversationLoaded={this.state.conversationLoaded} sender_id={this.props.user_id} recipient_id={this.props.request.user_id}/>
+					<ActionCableProvider url={"http://localhost:3001/cable"}>
+						<Chat request_id={this.props.request.id} selected={this.state.selected} sender_id={this.props.user_id} recipient_id={this.props.request.user_id}/>
 					</ActionCableProvider>
 				</Col>			
 			</Row>

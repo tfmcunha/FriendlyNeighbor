@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "action-cable": "^0.0.9",
     "bootstrap": "^4.3.1",
     "google-maps-react": "^2.0.2",
     "jquery": "^3.4.0",

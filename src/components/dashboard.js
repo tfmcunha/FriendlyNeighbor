@@ -78,8 +78,7 @@ class Dashboard extends Component {
 		.then(json => {
 			this.setState({
 				requests: json
-			});
-			
+			});			
 		})			
 	}
 

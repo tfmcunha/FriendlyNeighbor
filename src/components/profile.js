@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { Redirect, Link } from 'react-router-dom';
 import Auth from '../modules/auth';
 import { Row, Col, Form, Button, ListGroup } from 'react-bootstrap';
+import { FaBackward } from "react-icons/fa";
 import ErrorsHandler from './errorshandler';
 
 
@@ -67,7 +68,11 @@ class Profile extends Component {
 	render() {
 		return (
 			<Fragment>
-				<Link to="/dashboard"><h5>Dashboard</h5></Link>
+				<Row>
+					<Col>
+						<div className="p-2"><h6><Link to="/dashboard"><FaBackward /> Dashboard</Link></h6></div>
+					</Col>
+				</Row>
 				<Row>
 					{!(Auth.isUserAuthenticated()) &&
 						<Redirect to="/" />

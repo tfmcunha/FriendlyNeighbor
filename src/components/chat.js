@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Row, Col, Form, Button } from 'react-bootstrap';
 import { ActionCableConsumer } from 'react-actioncable-provider';
 import Auth from '../modules/auth';
@@ -24,7 +24,7 @@ class Chat extends Component {
 
 	componentWillMount(){		
 		if (this.props.sender_id !== this.props.recipient_id) {			
-			const conversation = {request_id: this.props.request_id, sender_id: this.props.sender_id, recipient_id: this.props.recipient_id};
+			const conversation = {request_id: this.props.request_id, sender_id: this.props.sender_id};
 			this.handleConversation(conversation)
 		};	
 	}
@@ -32,7 +32,7 @@ class Chat extends Component {
 	componentDidUpdate(prevProps) {	
 		if (prevProps.selected !== this.props.selected) {
 			if (this.props.sender_id === this.props.recipient_id) {
-				const conversation = {request_id: this.props.request_id, sender_id: this.props.sender_id, recipient_id: this.props.selected};
+				const conversation = {request_id: this.props.request_id, sender_id: this.props.selected};
 				this.handleConversation(conversation)
 			};	
 		}
@@ -40,24 +40,23 @@ class Chat extends Component {
 
 	}
 
-	handleConversation(conversation) {
-		
-		fetch('http://localhost:3001/conversations', { 
-       		method: 'POST', 
-        	body: JSON.stringify(conversation), 
-        	headers: {
-	        	'Content-Type': 'application/json',
-	        	token: Auth.getToken(),
-				'Authorization': `Token ${Auth.getToken()}`
-	      	}
-	    })
+	handleConversation(conversation) {		
+		fetch('http://localhost:3001/conversation',{
+			method: "GET",
+			headers: {
+				token: Auth.getToken(),
+				'Authorization': `Token ${Auth.getToken()}`,
+				"request": conversation.request_id,
+				"sender": conversation.sender_id
+			}
+		})
 	    .then(res => res.json())
 	    .then(json => {
 	    	this.setState({
 	    		conversation_id: json.id,
 	    		conversation: json.messages
 	    	})
-	    	console.log("conv", json)
+	    	console.log("xx",json)
 	    })
 	}
 
@@ -70,13 +69,14 @@ class Chat extends Component {
 
 	handleReceived(response) {
 		this.setState({	
-				conversation: response			
+				conversation: response.messages			
 		});		
 		console.log("res",response)
 		
     }
 
     handleChange(e){
+    	e.preventDefault();
     	const message = this.state.message;
     	message[e.target.name] = e.target.value;
     	this.setState({message}); 	
@@ -119,13 +119,16 @@ class Chat extends Component {
 		return(
 			<Row>
 				<ActionCableConsumer
-        	  		channel={{channel: "ConversationsChannel",
-        	  				conversation: this.state.conversation_id}}
-          			onReceived={this.handleReceived}
-           		>		       				
-       			</ActionCableConsumer>
+		             	channel={{channel: "ConversationsChannel",
+		        	  				conversation: this.state.conversation_id}}
+		             	onReceived={this.handleReceived}
+		             	onDisconnected={console.log("desligou")}
+						onConnected={console.log("ligou")}
+
+		         />
+				
        			<Col>
-       				<div className="p-2">
+       			 	<div className="p-2">
 		       			<div ref={this.chatbox} className="max-vh-25 overflow-auto chatbox">
 		       			{messages !== undefined &&
 		       				messages.map(message => (
@@ -152,7 +155,7 @@ class Chat extends Component {
 						</Form>
 					</div>
 				</Col>
-
+				
 
 			</Row>
 		);

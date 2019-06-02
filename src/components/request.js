@@ -5,8 +5,10 @@ import { FaUserAlt, FaTasks, FaInfo } from "react-icons/fa";
 import {Row, Col, Image, ListGroup, Button } from 'react-bootstrap';
 import Auth from '../modules/auth';
 import { ActionCableProvider } from 'react-actioncable-provider';
+import ActionCable from 'actioncable';
 import Chat from './chat';
 import '../css/request.css';
+const cable = ActionCable.createConsumer("ws://localhost:3001/cable");
 
 class Request extends Component {
 	constructor() {
@@ -16,8 +18,28 @@ class Request extends Component {
 			fulfilled: false,
 			redirect: false,
 		};
+		
 		this.handleFulfilled = this.handleFulfilled.bind(this);
 		this.deleteVolunteer = this.deleteVolunteer.bind(this);
+	}
+
+	componentWillMount() {
+		if (this.props.user_id !== this.props.request.user_id) {
+			const volunteer = {};
+			volunteer["request_id"] = this.props.request.id;
+			volunteer["user_id"] = this.props.user_id;
+			fetch("http://localhost:3001/volunteers",{
+				method: 'post',
+				headers: {	
+					'Content-Type':	'application/json',		
+					token: Auth.getToken(),
+					'Authorization': `Token ${Auth.getToken()}`			
+				},
+				body: JSON.stringify(volunteer)
+			})
+			.then(res => res.json())
+			.then(json => {console.log("ok")})
+		}
 	}
 
 	selectVolunteer = (id) => {
@@ -54,6 +76,7 @@ class Request extends Component {
 	}
 
 	render() {	
+
 		const request = this.props.request;	
 		return(
 			<Row className="my-3">
@@ -93,7 +116,7 @@ class Request extends Component {
 				</div>	
 				}
 				
-					<ActionCableProvider url={"http://localhost:3001/cable"}>
+					<ActionCableProvider cable={cable}>
 						<Chat request_id={this.props.request.id} selected={this.state.selected} sender_id={this.props.user_id} recipient_id={this.props.request.user_id}/>
 					</ActionCableProvider>
 				</Col>			

@@ -90,7 +90,7 @@ class Request extends Component {
 						<ListGroup.Item className="text-break"><FaTasks /> {request.body}</ListGroup.Item>
 					
 						<ListGroup.Item className="mx-auto">
-							<Image src={`https://maps.googleapis.com/maps/api/staticmap?center=${request.lat},${request.lng}&zoom=17&size=400x200&maptype=roadmap&markers=color:blue%7C${request.lat},${request.lng}&key=AIzaSyBqkhorIWv6NGUw4xhnxjKa6x6YWdffLzo`} fluid/>
+							<Image src={`https://maps.googleapis.com/maps/api/staticmap?center=${request.lat},${request.lng}&zoom=17&size=400x200&maptype=roadmap&markers=color:blue%7C${request.lat},${request.lng}&key=${process.env.REACT_APP_GM_API_KEY}`} fluid/>
 						</ListGroup.Item>
 					</ListGroup>
 				</Col>

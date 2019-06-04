@@ -62,7 +62,6 @@ class NewRequest extends Component {
 	handleNewRequest(e) {
 		e.preventDefault();
 		if(this.validateForm()) {
-			console.log(this.state);
 			const request = JSON.stringify(this.state.request);
 			fetch('http://localhost:3001/requests', { 
 	        	method: 'POST', 
@@ -99,8 +98,8 @@ class NewRequest extends Component {
 					</Form.Group>
 					<Form.Group>
 						<Form.Label>Request Type:</Form.Label>
-						<Form.Check type="radio" label="Task" name="req_type" value="0" onChange={this.handleChange} />
-						<Form.Check type="radio" label="Material" name="req_type" value="1" onChange={this.handleChange} />
+						<Form.Check type="radio" label="Task" name="req_type" value="Task" onChange={this.handleChange} />
+						<Form.Check type="radio" label="Materials" name="req_type" value="Materials" onChange={this.handleChange} />
 						<Form.Text className="text-danger">{this.state.errors.req_type}</Form.Text>
 					</Form.Group>					
 					<Button variant="primary" type="submit">Send</Button>

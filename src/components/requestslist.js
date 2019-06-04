@@ -3,17 +3,18 @@ import { ListGroup } from 'react-bootstrap';
 
 class RequestsList extends Component {		
 	render() {
+		console.log(this.props.requests)
 		return(
-			<div className="p-3">
+			<div className="p-3 detailbox text-center">
 				<h3>Requests</h3>
 					<ListGroup>
 		      		{this.props.requests !== undefined &&
-
-		      			this.props.requests.map(request => {
-
-			      				return <ListGroup.Item action key={request.id} onClick={(e) => this.props.handleRequest(request.id)}>{request.title}</ListGroup.Item>
-			      			 
-		      		})} 
+		      			this.props.requests.length !== 0 ?
+			      			this.props.requests.map(request => {
+			      				return <ListGroup.Item className="text-truncate" action key={request.id} onClick={(e) => this.props.handleRequest(request.id)}>{request.title}</ListGroup.Item>			      			 
+			    	  		}) 
+			    	  		: <h6>No requests available in this area. <br />Drag map to find requests</h6>
+		    	  	}
 		      		</ListGroup>
 			</div>
 		);

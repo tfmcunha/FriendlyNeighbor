@@ -20,7 +20,7 @@ class RequestMap extends Component {
 
 	setMarkerColor(type){	
 		let icon = "";	
-  		if (type === "1" ) {
+  		if (type === "Materials" ) {
   			icon = "http://maps.google.com/mapfiles/ms/icons/green-dot.png"
   		} else {
   			icon = "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"

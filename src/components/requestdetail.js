@@ -1,6 +1,8 @@
 import React, { Component, Fragment } from 'react';
-import { Button } from 'react-bootstrap';
+import { Row, Col, Button } from 'react-bootstrap';
+import { FaUserAlt, FaTasks, FaInfo, FaExclamation } from "react-icons/fa";
 import { Link } from 'react-router-dom';
+import '../css/requestdetail.css';
 
 class RequestDetails extends Component {
 	render() {		
@@ -9,11 +11,19 @@ class RequestDetails extends Component {
 			<Fragment>
 				<h4>Details:</h4>
 				{request.id !== undefined  
-				? 	<div>
-						<div>{request.title}</div>
-						<div className="text-break">{request.body}</div>
-						<Link to={"/dashboard/request"} ><Button>HELP</Button></Link>
-					</div>
+				? 	<Row className="detailbox">
+						<Col md={3}>
+							<div><FaUserAlt /> {request.user_name}</div>							
+							<div><FaExclamation /> {request.req_type}</div>
+						</Col>
+						<Col md={8}>
+							<div><FaInfo /> {request.title}</div>
+							<div className="text-break"><FaTasks/> {request.body}</div>
+						</Col>
+						<Col md={1}>
+							<Link to={"/dashboard/request"} ><Button>HELP</Button></Link>
+						</Col>
+					</Row>
 				: <div>No request selected</div>
 				}
 			</Fragment>

@@ -22,7 +22,7 @@ class Chat extends Component {
 
 	}
 
-	componentWillMount(){		
+	componentDidMount(){		
 		if (this.props.sender_id !== this.props.recipient_id) {			
 			const conversation = {request_id: this.props.request_id, sender_id: this.props.sender_id};
 			this.handleConversation(conversation)
@@ -128,7 +128,7 @@ class Chat extends Component {
 		         />
 				
        			<Col>
-       			 	<div className="p-2">
+       			 	<div className="p-2 chatcontainer mt-3">
 		       			<div ref={this.chatbox} className="max-vh-25 overflow-auto chatbox">
 		       			{messages !== undefined &&
 		       				messages.map(message => (

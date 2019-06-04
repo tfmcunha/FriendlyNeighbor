@@ -166,7 +166,7 @@ class Dashboard extends Component {
 									</div>
 								</Col>
 								<Col md={3}>
-									<div className="m-2 p-2">
+									<div className="my-2">
 										<RequestsList 
 											requests={this.state.requests} 
 											handleRequest={this.handleRequest} 
@@ -198,7 +198,7 @@ class Dashboard extends Component {
 				<Route 
 					exact path="/dashboard/profile"
 					render={() => 					
-						<Profile user={this.state.user} handleOwnRequest={this.handleOwnRequest} handleRequest={this.handleRequest}/>      					      				
+						<Profile user={this.state.user} handleOwnRequest={this.handleOwnRequest} />      					      				
 					}
 				/>   
 

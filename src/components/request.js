@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import { MdDeleteForever } from "react-icons/md";
-import { FaUserAlt, FaTasks, FaInfo } from "react-icons/fa";
+import { FaUserAlt, FaTasks, FaInfo, FaExclamation } from "react-icons/fa";
 import {Row, Col, Image, ListGroup, Button } from 'react-bootstrap';
 import Auth from '../modules/auth';
 import { ActionCableProvider } from 'react-actioncable-provider';
 import ActionCable from 'actioncable';
 import Chat from './chat';
 import '../css/request.css';
-const cable = ActionCable.createConsumer("ws://localhost:3001/cable");
 
 class Request extends Component {
 	constructor() {
@@ -49,7 +48,7 @@ class Request extends Component {
 	handleFulfilled(e) {
 		const status = {};
 		status["fulfilled"] = true;		
-		//e.preventDefault();
+		e.preventDefault();
 		fetch(`http://localhost:3001/requests/${this.props.request.id}`,{
 			method: 'PATCH',
 			headers: {
@@ -72,7 +71,7 @@ class Request extends Component {
 			},
 		})
 		.then(res => res.json())
-		.then(json => {console.log("ok")})
+		.then(json => {this.setState({redirect: true})})
 	}
 
 	render() {	
@@ -80,12 +79,12 @@ class Request extends Component {
 		const request = this.props.request;	
 		return(
 			<Row className="my-3">
-				{(request.id === undefined || this.state.redirect) && <Redirect to="/dashboard" />}
+				{(request.id === undefined || this.state.redirect) && <Redirect to="/" />}
 				<Col md={6}>
 					<h4>Details:</h4>
 					<ListGroup variant="flush">
-						<ListGroup.Item><FaUserAlt /> </ListGroup.Item>
-						<ListGroup.Item>{request.req} </ListGroup.Item>
+						<ListGroup.Item><FaUserAlt /> {request.user_name}</ListGroup.Item>
+						<ListGroup.Item><FaExclamation /> {request.req_type} </ListGroup.Item>
 						<ListGroup.Item><FaInfo /> {request.title}</ListGroup.Item>
 						<ListGroup.Item className="text-break"><FaTasks /> {request.body}</ListGroup.Item>
 					
@@ -108,7 +107,7 @@ class Request extends Component {
 						{request.volunteers !== undefined &&
 							request.volunteers.map(volunteer => (
 							<Row key={volunteer.id} >
-								<Col xs={8}><ListGroup.Item className="py-1" action onClick={(e) => this.selectVolunteer(volunteer.user_id)}>{volunteer.username}</ListGroup.Item></Col>
+								<Col xs={8}><ListGroup.Item className="py-1 text-center" action onClick={(e) => this.selectVolunteer(volunteer.user_id)}>{volunteer.username}</ListGroup.Item></Col>
 								<Col xs={4}><Button variant="danger" size="sm" onClick={(e) => this.deleteVolunteer(volunteer.id)}><MdDeleteForever className="delete"/></Button></Col> 
 							</Row>
 						))}								
@@ -116,7 +115,7 @@ class Request extends Component {
 				</div>	
 				}
 				
-					<ActionCableProvider cable={cable}>
+					<ActionCableProvider url={"ws://localhost:3001/cable"}>
 						<Chat request_id={this.props.request.id} selected={this.state.selected} sender_id={this.props.user_id} recipient_id={this.props.request.user_id}/>
 					</ActionCableProvider>
 				</Col>			

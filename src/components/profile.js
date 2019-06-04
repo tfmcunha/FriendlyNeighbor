@@ -35,7 +35,8 @@ class Profile extends Component {
 			this.setState({
 				owned_requests: json.requests,
 				isVolunteer: json.isVolunteer
-			});			
+			});	
+			console.log(json)		
 		})
 
 		
@@ -107,10 +108,10 @@ class Profile extends Component {
 					<Col md={4}>
 						<div className="mt-2">
 							<h3 className="text-center">I need help:</h3>
-							<ListGroup>
+							<ListGroup variant="flush" className="text-center">
 							{this.state.owned_requests !== undefined &&
 								this.state.owned_requests.map(request => (
-								<ListGroup.Item action key={request.id}><Link to={"/dashboard/request"} onClick={(e) => this.props.handleOwnRequest(request)}>{request.title}</Link></ListGroup.Item>
+								<ListGroup.Item key={request.id}><Link to={"/dashboard/request"} onClick={(e) => this.props.handleOwnRequest(request)}>{request.title}</Link></ListGroup.Item>
 							))}
 							</ListGroup>
 						</div>
@@ -119,10 +120,10 @@ class Profile extends Component {
 					<Col md={4}>
 						<div className="mt-2">
 							<h3 className="text-center">Im helping:</h3>
-							<ListGroup>
+							<ListGroup variant="flush" className="text-center">
 							{this.state.isVolunteer !== undefined &&
-								this.state.isVolunteer.map(volunteer => (							
-								<ListGroup.Item action key={volunteer.id}><Link to={"/dashboard/request"} onClick={(e) => this.props.handleRequest(volunteer.id)} >{volunteer.title}</Link></ListGroup.Item>
+								this.state.isVolunteer.map(request => (							
+								<ListGroup.Item key={request.id}><Link to={"/dashboard/request"} onClick={(e) => this.props.handleOwnRequest(request)} >{request.title}</Link></ListGroup.Item>
 							))}
 							</ListGroup>
 						</div>

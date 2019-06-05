@@ -46,6 +46,11 @@ class NewRequest extends Component {
 	      errors["body"] = "*Enter a description (300 characters max)!";
 	    }
 
+	    if(request["body"].length > 300) {
+	    	formIsValid = false;
+	      	errors["body"] = "*Description can't have more than 300 characters!";	
+	    }
+
 	    if (!request["req_type"]) {
 	      formIsValid = false;
 	      errors["req_type"] = "*Choose a help type!";

@@ -1,16 +1,19 @@
 import React, { Component } from 'react';
 import Auth from '../modules/auth';
+import { Redirect } from 'react-router-dom';
 import { Modal, Button } from 'react-bootstrap';
 
 
 class CancelAcc extends Component {
 	constructor() {
 		super();
-    this.state = { show: false};
+    this.state = { show: false, redirect: false};
     this.handleShow=this.handleShow.bind(this); 
     this.handleClose=this.handleClose.bind(this); 
 		this.handleCancelation=this.handleCancelation.bind(this);	
 	}
+
+  
 
   handleClose() {
     this.setState({ show: false });
@@ -32,35 +35,30 @@ class CancelAcc extends Component {
     .then(res => res.json())
     .then(json => {
       if (json.status === "ok") {
-        Auth.deauthenticateUser();
+        Auth.deauthenticateUser();        
         const { handleAuth } = this.props;  
-        handleAuth();       
+        handleAuth();      
       }
-      console.log(json)
     })
-    .catch(error => console.log(error))
-
-  }
-
-	
+  }	
 
   render() {
-   return (
-    <div>      			 				
-      
+    return (
+      <div>         
+        <Button variant="primary" onClick={this.handleShow}>
+          Cancel Account
+        </Button>
 
-      <Button variant="primary" onClick={this.handleShow}>
-        Cancel Account
-      </Button>
+        <Modal size="sm" show={this.state.show} onHide={this.handleClose}>
+          <div className="m-3 text-center">
+            <h6>This action cannot be undone!!</h6>
+            <Button variant="danger" onClick={this.handleCancelation}>Confirm</Button>  
+          </div>
+        </Modal>
+      </div>
+    );
+  }
 
-      <Modal size="sm" show={this.state.show} onHide={this.handleClose}>
-        this action cannot be undone!
-        <Button variant="danger" onClick={this.handleCancelation}>Confirm</Button>  
-      </Modal>
-    </div>
-      				
-    	);
-  	}
 }
 
 export default CancelAcc;

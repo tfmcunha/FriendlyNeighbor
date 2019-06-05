@@ -198,7 +198,7 @@ class Dashboard extends Component {
 				<Route 
 					exact path="/dashboard/profile"
 					render={() => 					
-						<Profile user={this.state.user} handleOwnRequest={this.handleOwnRequest} />      					      				
+						<Profile user={this.state.user} handleOwnRequest={this.handleOwnRequest} handleAuth={this.props.handleAuth}/>      					      				
 					}
 				/>   
 

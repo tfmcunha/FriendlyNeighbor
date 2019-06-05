@@ -4,6 +4,7 @@ import Auth from '../modules/auth';
 import { Row, Col, Form, Button, ListGroup } from 'react-bootstrap';
 import { FaBackward } from "react-icons/fa";
 import ErrorsHandler from './errorshandler';
+import CancelAcc from './cancelacc';
 
 
 class Profile extends Component {
@@ -18,6 +19,7 @@ class Profile extends Component {
 		}
 		this.handleChange=this.handleChange.bind(this);	
 		this.handleRegister=this.handleRegister.bind(this);	
+		//this.handleAuthentication = this.handleAuthentication.bind(this);
 		
 
 	}
@@ -41,6 +43,12 @@ class Profile extends Component {
 
 		
 	}
+
+	// handleAuthentication() {
+	//     this.setState({
+	//       auth: Auth.isUserAuthenticated()
+	//     })
+	// }
 
 	handleChange(e) {
 		const user = this.state.user;
@@ -101,8 +109,9 @@ class Profile extends Component {
 								</Form.Group>   
 
 								<Button variant="primary" type="submit">Save</Button>
-							</Form>
+							</Form>							
 						</div>
+						<CancelAcc handleAuth={this.props.handleAuth}/>
 					</Col>
 
 					<Col md={4}>

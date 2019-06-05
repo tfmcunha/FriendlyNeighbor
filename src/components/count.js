@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import { ActionCableConsumer } from 'react-actioncable-provider';
+import React, {Component, Fragment} from 'react';
+import ActionCable from 'actioncable';
 
 class Count extends Component {
 	constructor() {
@@ -16,6 +16,16 @@ class Count extends Component {
 				count: json
 			});			
 		})
+		this.createSocket();
+	}
+
+	createSocket(id) {
+		const cable = ActionCable.createConsumer("ws://localhost:3001/cable");
+		
+		this.sub = cable.subscriptions.create(
+      		{ channel: 'RequestCountChannel' },
+		    { received: (response) => { this.handleReceived(response) } }
+    	);
 	}
 
 	handleReceived(response) {
@@ -24,16 +34,12 @@ class Count extends Component {
 
 	render() {
 		return(
-			<div>
-				<ActionCableConsumer
-        	  		channel="RequestCountChannel"        	  				
-          			onReceived={this.handleReceived}
-           		>		       				
-       			</ActionCableConsumer>
-       			<h3>
-       				Unfulfilled help requests{this.state.count}
-       			</h3>
-			</div>
+			<Fragment>				
+       			<div className="text-center m-2">
+       				<h3>Unfulfilled help requests</h3>
+       				<h1>{this.state.count}</h1>
+       			</div>
+			</Fragment>
 			);
 	}
 }

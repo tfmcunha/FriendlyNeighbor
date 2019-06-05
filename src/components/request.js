@@ -4,8 +4,6 @@ import { MdDeleteForever } from "react-icons/md";
 import { FaUserAlt, FaTasks, FaInfo, FaExclamation } from "react-icons/fa";
 import {Row, Col, Image, ListGroup, Button } from 'react-bootstrap';
 import Auth from '../modules/auth';
-import { ActionCableProvider } from 'react-actioncable-provider';
-import ActionCable from 'actioncable';
 import Chat from './chat';
 import '../css/request.css';
 
@@ -17,7 +15,6 @@ class Request extends Component {
 			fulfilled: false,
 			redirect: false,
 		};
-		
 		this.handleFulfilled = this.handleFulfilled.bind(this);
 		this.deleteVolunteer = this.deleteVolunteer.bind(this);
 	}
@@ -99,8 +96,7 @@ class Request extends Component {
 						<Button variant="success" type="button" onClick={this.handleFulfilled}>CONFIRM</Button> 
 					</div>
 				{this.props.user_id === request.user_id &&
-				<div>	
-					
+				<div>					
 
 					<ListGroup>
 						<h4>Volunteers:</h4>
@@ -113,11 +109,9 @@ class Request extends Component {
 						))}								
 					</ListGroup>
 				</div>	
-				}
+				}		
+					<Chat request_id={this.props.request.id} selected={this.state.selected} sender_id={this.props.user_id} recipient_id={this.props.request.user_id}/>
 				
-					<ActionCableProvider url={"ws://localhost:3001/cable"}>
-						<Chat request_id={this.props.request.id} selected={this.state.selected} sender_id={this.props.user_id} recipient_id={this.props.request.user_id}/>
-					</ActionCableProvider>
 				</Col>			
 			</Row>
 		);

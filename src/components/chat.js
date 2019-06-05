@@ -1,6 +1,6 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { Row, Col, Form, Button } from 'react-bootstrap';
-import { ActionCableConsumer } from 'react-actioncable-provider';
+import ActionCable from 'actioncable';
 import Auth from '../modules/auth';
 import '../css/chat.css';
 
@@ -15,18 +15,28 @@ class Chat extends Component {
 				body:""
 			}
 		};
-		this.handleReceived = this.handleReceived.bind(this);
+		
 		this.handleChange = this.handleChange.bind(this);
-		this.handleNewMessage = this.handleNewMessage.bind(this);
+		this.handleNewMessage = this.handleNewMessage.bind(this);		
+		this.handleReceived = this.handleReceived.bind(this);
 		this.chatbox = React.createRef()
 
 	}
 
-	componentDidMount(){		
+	createSocket(id) {
+		const cable = ActionCable.createConsumer("ws://localhost:3001/cable");
+		
+		this.sub = cable.subscriptions.create(
+      		{ channel: 'ConversationsChannel', conversation: id },
+		    { received: (response) => { this.handleReceived(response) } }
+    	);
+	}
+
+	componentWillMount() {
 		if (this.props.sender_id !== this.props.recipient_id) {			
 			const conversation = {request_id: this.props.request_id, sender_id: this.props.sender_id};
 			this.handleConversation(conversation)
-		};	
+		};
 	}
 
 	componentDidUpdate(prevProps) {	
@@ -55,8 +65,8 @@ class Chat extends Component {
 	    	this.setState({
 	    		conversation_id: json.id,
 	    		conversation: json.messages
-	    	})
-	    	console.log("xx",json)
+	    	})	    	
+			this.createSocket(json.id);
 	    })
 	}
 
@@ -68,11 +78,26 @@ class Chat extends Component {
 	}
 
 	handleReceived(response) {
+		let incoming = response.message;
+		let conversation_id = response.id;
+		let conversation = this.state.conversation;
+		conversation.push(incoming);
 		this.setState({	
-				conversation: response.messages			
+				conversation, 
+				conversation_id			
 		});		
-		console.log("res",response)
-		
+    }
+
+    
+
+    setUserMessageLayout = (id) => {
+    	let clss = "";
+    	if (id === this.props.sender_id) {
+    		clss = "ml-auto out"
+    	} else {
+    		clss = "mr-auto in"
+    	}
+    	return clss
     }
 
     handleChange(e){
@@ -92,9 +117,7 @@ class Chat extends Component {
        		method: 'POST', 
         	body: JSON.stringify(this.state.message), 
         	headers: {
-	        	'Content-Type': 'application/json',
-	        	token: Auth.getToken(),
-				'Authorization': `Token ${Auth.getToken()}`
+	        	'Content-Type': 'application/json'
 	      	}
 	    })
 	    .then(res => res.json())
@@ -104,31 +127,13 @@ class Chat extends Component {
 	      
     }
 
-    setUserMessageLayout = (id) => {
-    	let clss = "";
-    	if (id === this.props.sender_id) {
-    		clss = "ml-auto out"
-    	} else {
-    		clss = "mr-auto in"
-    	}
-    	return clss
-    }
-
 	render() {			
 		const messages = this.state.conversation;		
 		return(
-			<Row>
-				<ActionCableConsumer
-		             	channel={{channel: "ConversationsChannel",
-		        	  				conversation: this.state.conversation_id}}
-		             	onReceived={this.handleReceived}
-		             	onDisconnected={console.log("desligou")}
-						onConnected={console.log("ligou")}
-
-		         />
-				
+			<Row>		     					
        			<Col>
        			 	<div className="p-2 chatcontainer mt-3">
+       			 	
 		       			<div ref={this.chatbox} className="max-vh-25 overflow-auto chatbox">
 		       			{messages !== undefined &&
 		       				messages.map(message => (
@@ -141,6 +146,7 @@ class Chat extends Component {
 		       					</div>
 		       				))}
 		       			</div>
+
 		       			<Form onSubmit={this.handleNewMessage}>
 						  <Form.Row>
 						    <Col xs={10}>
@@ -153,10 +159,9 @@ class Chat extends Component {
 							</Col>
 						  	</Form.Row>
 						</Form>
+
 					</div>
 				</Col>
-				
-
 			</Row>
 		);
 	}

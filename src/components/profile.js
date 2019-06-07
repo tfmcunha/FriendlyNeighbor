@@ -88,7 +88,7 @@ class Profile extends Component {
 					}
 
 					<Col md={4}>
-						<div className="mt-2">
+						<div className="mt-2 border-top border-warning pb-3">
 							<h3 className="text-center">Edit your details</h3>
 							<Form onSubmit={this.handleRegister}>		      		
 								<Form.Group>
@@ -115,7 +115,7 @@ class Profile extends Component {
 					</Col>
 
 					<Col md={4}>
-						<div className="mt-2">
+						<div className="mt-2 border-top border-warning">
 							<h3 className="text-center">I need help:</h3>
 							<ListGroup variant="flush" className="text-center">
 							{this.state.owned_requests !== undefined &&
@@ -127,7 +127,7 @@ class Profile extends Component {
 					</Col>
 
 					<Col md={4}>
-						<div className="mt-2">
+						<div className="mt-2 border-top border-warning">
 							<h3 className="text-center">Im helping:</h3>
 							<ListGroup variant="flush" className="text-center">
 							{this.state.isVolunteer !== undefined &&

@@ -44,8 +44,8 @@ class CancelAcc extends Component {
 
   render() {
     return (
-      <div>         
-        <Button variant="primary" onClick={this.handleShow}>
+      <div className="py-3 border-top border-warning">         
+        <Button variant="danger" onClick={this.handleShow}>
           Cancel Account
         </Button>
 

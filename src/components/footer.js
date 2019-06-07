@@ -11,10 +11,8 @@ class Footer extends Component {
   		<div>
 	  		<Navbar fixed="bottom" className="myfooter justify-content-center" >
 		  		<Nav className="mr-1">
-			  		<Nav.Item className="social">
-			  			<Nav.Link>
-			  				<Link to="/help"><FaQuestionCircle /></Link>
-			  			</Nav.Link>
+			  		<Nav.Item className="social">			  						  			
+			  			<Link to="/help" className="nav-link"><FaQuestionCircle /></Link>			  						  			
 			  		</Nav.Item>
 			  		<Nav.Item className="social">
 				  		<Nav.Link href="mailto:tcunha_lp@hotmail.com">

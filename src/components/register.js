@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { API_ROOT } from '../constants';
 import { Redirect } from 'react-router-dom';
 import Auth from '../modules/auth';
 import { Form, Button } from 'react-bootstrap';
@@ -110,7 +111,7 @@ class Register extends Component {
       user.append('user[first_name]', this.state.first_name);
       user.append('user[last_name]', this.state.last_name);
       user.append('user[govid]', this.state.govid);     
-      fetch('http://localhost:3001/users', { 
+      fetch(`${API_ROOT}/users`, { 
         method: 'POST', 
         body: user, 
       })

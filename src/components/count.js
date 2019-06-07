@@ -1,5 +1,6 @@
 import React, {Component, Fragment} from 'react';
 import ActionCable from 'actioncable';
+import { API_ROOT, API_WS_ROOT } from '../constants';
 
 class Count extends Component {
 	constructor() {
@@ -9,7 +10,7 @@ class Count extends Component {
 	}
 
 	componentWillMount() {
-		fetch('http://localhost:3001/count')
+		fetch(`${API_ROOT}/count`)
 		.then(res => res.json())
 		.then(json => {
 			this.setState({
@@ -20,7 +21,7 @@ class Count extends Component {
 	}
 
 	createSocket(id) {
-		const cable = ActionCable.createConsumer("ws://localhost:3001/cable");
+		const cable = ActionCable.createConsumer(`${API_WS_ROOT}`);
 		
 		this.sub = cable.subscriptions.create(
       		{ channel: 'RequestCountChannel' },

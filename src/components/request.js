@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import { API_ROOT } from '../constants';
 import { Redirect } from 'react-router-dom';
 import { MdDeleteForever } from "react-icons/md";
 import { FaUserAlt, FaTasks, FaInfo, FaExclamation } from "react-icons/fa";
-import {Row, Col, Image, ListGroup, Button } from 'react-bootstrap';
+import {Row, Col, Image, ListGroup, Button, Overlay, Tooltip } from 'react-bootstrap';
 import Auth from '../modules/auth';
 import Chat from './chat';
 import '../css/request.css';
@@ -14,7 +15,10 @@ class Request extends Component {
 			selected:"",
 			fulfilled: false,
 			redirect: false,
+			show: false 
+
 		};
+		this.attachRef = target => this.setState({ target });    
 		this.handleFulfilled = this.handleFulfilled.bind(this);
 		this.deleteVolunteer = this.deleteVolunteer.bind(this);
 	}
@@ -24,7 +28,7 @@ class Request extends Component {
 			const volunteer = {};
 			volunteer["request_id"] = this.props.request.id;
 			volunteer["user_id"] = this.props.user_id;
-			fetch("http://localhost:3001/volunteers",{
+			fetch(`${API_ROOT}/volunteers`,{
 				method: 'post',
 				headers: {	
 					'Content-Type':	'application/json',		
@@ -46,7 +50,7 @@ class Request extends Component {
 		const status = {};
 		status["fulfilled"] = true;		
 		e.preventDefault();
-		fetch(`http://localhost:3001/requests/${this.props.request.id}`,{
+		fetch(`${API_ROOT}/requests/${this.props.request.id}`,{
 			method: 'PATCH',
 			headers: {
 				'Content-Type': 'application/json', 	       
@@ -60,7 +64,7 @@ class Request extends Component {
 	}
 
 	deleteVolunteer(id) {
-		fetch(`http://localhost:3001/volunteers/${id}`,{
+		fetch(`${API_ROOT}/volunteers/${id}`,{
 			method: 'delete',
 			headers: {				
 				token: Auth.getToken(),
@@ -78,25 +82,35 @@ class Request extends Component {
 			<Row className="my-3">
 				{(request.id === undefined || this.state.redirect) && <Redirect to="/" />}
 				<Col md={6}>
-					<h4>Details:</h4>
-					<ListGroup variant="flush">
-						<ListGroup.Item><FaUserAlt /> {request.user_name}</ListGroup.Item>
-						<ListGroup.Item><FaExclamation /> {request.req_type} </ListGroup.Item>
-						<ListGroup.Item><FaInfo /> {request.title}</ListGroup.Item>
-						<ListGroup.Item className="text-break"><FaTasks /> {request.body}</ListGroup.Item>
-					
-						<ListGroup.Item className="mx-auto">
-							<Image src={`https://maps.googleapis.com/maps/api/staticmap?center=${request.lat},${request.lng}&zoom=17&size=400x200&maptype=roadmap&markers=color:blue%7C${request.lat},${request.lng}&key=${process.env.REACT_APP_GM_API_KEY}`} fluid/>
-						</ListGroup.Item>
-					</ListGroup>
+					<div className="border-top border-warning">
+						<h4>Details:</h4>
+						<ListGroup variant="flush">
+							<ListGroup.Item><FaUserAlt /> {request.user_name}</ListGroup.Item>
+							<ListGroup.Item><FaExclamation /> {request.req_type} </ListGroup.Item>
+							<ListGroup.Item><FaInfo /> {request.title}</ListGroup.Item>
+							<ListGroup.Item className="text-break"><FaTasks /> {request.body}</ListGroup.Item>
+						
+							<ListGroup.Item className="mx-auto">
+								<Image src={`https://maps.googleapis.com/maps/api/staticmap?center=${request.lat},${request.lng}&zoom=17&size=400x200&maptype=roadmap&markers=color:blue%7C${request.lat},${request.lng}&key=${process.env.REACT_APP_GM_API_KEY}`} fluid/>
+							</ListGroup.Item>
+						</ListGroup>
+					</div>
 				</Col>
 				<Col md={6}> 
-					<div>
-						Is the request fulfilled?
-						<Button variant="success" type="button" onClick={this.handleFulfilled}>CONFIRM</Button> 
+					<div className="d-flex py-2 border-top border-warning">
+						<h6 className="py-2">Is the request fulfilled?</h6>
+						<input className="check m-2" type="checkbox" ref={this.attachRef} onChange={() => this.setState({ show: !this.state.show })}/>
+						<Overlay target={this.state.target} show={this.state.show} placement="right">
+				          {props => (
+				            <Tooltip id="tooltip" {...props}>
+				              <Button variant="success" type="button" onClick={this.handleFulfilled}>CONFIRM</Button> 
+				            </Tooltip>
+				          )}
+				        </Overlay>
+						
 					</div>
 				{this.props.user_id === request.user_id &&
-				<div>					
+				<div className="border-top border-warning">					
 
 					<ListGroup>
 						<h4>Volunteers:</h4>

@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import { API_ROOT } from '../constants';
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import Auth from '../modules/auth';
 import '../css/menu.css';
@@ -12,7 +13,7 @@ class Menu extends Component {
 	}
 
 	handleLogout() {
-		fetch('http://localhost:3001/logout', {
+		fetch(`${API_ROOT}/logout`, {
 			method: 'delete',
 			headers: {
 				'Authorization': `Token ${Auth.getToken()}`

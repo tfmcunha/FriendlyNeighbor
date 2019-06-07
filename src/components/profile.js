@@ -1,9 +1,9 @@
 import React, { Component, Fragment } from 'react';
+import { API_ROOT } from '../constants';
 import { Redirect, Link } from 'react-router-dom';
 import Auth from '../modules/auth';
 import { Row, Col, Form, Button, ListGroup } from 'react-bootstrap';
 import { FaBackward } from "react-icons/fa";
-import ErrorsHandler from './errorshandler';
 import CancelAcc from './cancelacc';
 
 
@@ -19,13 +19,10 @@ class Profile extends Component {
 		}
 		this.handleChange=this.handleChange.bind(this);	
 		this.handleRegister=this.handleRegister.bind(this);	
-		//this.handleAuthentication = this.handleAuthentication.bind(this);
-		
-
 	}
 
 	componentWillMount() {
-		fetch('http://localhost:3001/owner', { 
+		fetch(`${API_ROOT}/owner`, { 
 			method: 'GET',
 			headers: {	        
 				token: Auth.getToken(),
@@ -44,12 +41,6 @@ class Profile extends Component {
 		
 	}
 
-	// handleAuthentication() {
-	//     this.setState({
-	//       auth: Auth.isUserAuthenticated()
-	//     })
-	// }
-
 	handleChange(e) {
 		const user = this.state.user;
 		user[e.target.name] = e.target.value;		
@@ -59,7 +50,7 @@ class Profile extends Component {
 	}	
 
 	handleRegister(e) {
-		fetch(`http://localhost:3001/users/${this.props.user.id}`,{
+		fetch(`${API_ROOT}/users/${this.props.user.id}`,{
 			method: 'PATCH',
 			headers: {
 				'Content-Type': 'application/json', 	       

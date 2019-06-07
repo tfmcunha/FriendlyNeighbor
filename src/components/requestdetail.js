@@ -21,7 +21,7 @@ class RequestDetails extends Component {
 							<div className="text-break"><FaTasks/> {request.body}</div>
 						</Col>
 						<Col md={1}>
-							<Link to={"/dashboard/request"} ><Button>HELP</Button></Link>
+							<Link to={"/dashboard/request"}><Button className="mt-2">HELP</Button></Link>
 						</Col>
 					</Row>
 				: <div>No request selected</div>

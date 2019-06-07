@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { API_ROOT } from '../constants';
 import { Redirect } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
 import Auth from '../modules/auth';
@@ -65,7 +66,7 @@ class LoginForm extends Component {
 	handleLogin(e) {
 		e.preventDefault();
 		if ( this.validateForm() ) {		    
-		    fetch('http://localhost:3001/login', { 
+		    fetch(`${API_ROOT}/login`, { 
 		      method: 'POST', 
 		      body: JSON.stringify(this.state.loginData), 
 		      headers: {

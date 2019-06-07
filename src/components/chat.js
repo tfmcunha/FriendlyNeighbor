@@ -3,6 +3,7 @@ import { Row, Col, Form, Button } from 'react-bootstrap';
 import ActionCable from 'actioncable';
 import Auth from '../modules/auth';
 import '../css/chat.css';
+import { API_ROOT, API_WS_ROOT } from '../constants';
 
 class Chat extends Component {
 
@@ -24,7 +25,7 @@ class Chat extends Component {
 	}
 
 	createSocket(id) {
-		const cable = ActionCable.createConsumer("ws://localhost:3001/cable");
+		const cable = ActionCable.createConsumer(`${API_WS_ROOT}`);
 		
 		this.sub = cable.subscriptions.create(
       		{ channel: 'ConversationsChannel', conversation: id },
@@ -51,7 +52,7 @@ class Chat extends Component {
 	}
 
 	handleConversation(conversation) {		
-		fetch('http://localhost:3001/conversation',{
+		fetch(`${API_ROOT}/conversation`,{
 			method: "GET",
 			headers: {
 				token: Auth.getToken(),
@@ -113,7 +114,7 @@ class Chat extends Component {
     	const message = this.state.message;
     	message["conversation_id"] = this.state.conversation_id;
     	message["user_id"]= this.props.sender_id;
-    	fetch('http://localhost:3001/messages', { 
+    	fetch(`${API_ROOT}/messages'`, { 
        		method: 'POST', 
         	body: JSON.stringify(this.state.message), 
         	headers: {

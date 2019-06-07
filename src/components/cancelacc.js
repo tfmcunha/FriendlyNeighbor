@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Auth from '../modules/auth';
-import { Redirect } from 'react-router-dom';
 import { Modal, Button } from 'react-bootstrap';
+import { API_ROOT } from '../constants';
 
 
 class CancelAcc extends Component {
@@ -25,7 +25,7 @@ class CancelAcc extends Component {
 
 	handleCancelation(e) {
     e.preventDefault();
-    fetch(`http://localhost:3001/users/${this.props.user_id}`, { 
+    fetch(`${API_ROOT}/users/${this.props.user_id}`, { 
         method: 'DELETE',
         headers: {          
           token: Auth.getToken(),

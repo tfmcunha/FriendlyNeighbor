@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import { API_ROOT } from '../constants';
 import { Route, Redirect } from 'react-router-dom';
 import { Row, Col, Modal } from 'react-bootstrap';
 import Auth from '../modules/auth';
@@ -41,7 +42,7 @@ class Dashboard extends Component {
 
 
 	fetchProfile() {
-		fetch('http://localhost:3001/profile', { 
+		fetch(`${API_ROOT}/profile`, { 
 			method: 'GET',
 			headers: {	        
 				token: Auth.getToken(),
@@ -65,7 +66,7 @@ class Dashboard extends Component {
 	fetchRequests() {	
 		const lat = this.state.currentLocation.lat;
 		const lng = this.state.currentLocation.lng;
-		fetch('http://localhost:3001/requests', { 
+		fetch(`${API_ROOT}/requests`, { 
 			method: 'GET',
 			headers: {	        
 				token: Auth.getToken(),

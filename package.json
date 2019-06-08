@@ -3,18 +3,20 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "action-cable": "^0.0.9",
+    "actioncable": "^5.2.3",
     "bootstrap": "^4.3.1",
+    "enzyme": "^3.10.0",
+    "enzyme-adapter-react-16": "^1.14.0",
     "google-maps-react": "^2.0.2",
     "jquery": "^3.4.0",
     "popper.js": "^1.15.0",
     "react": "^16.8.6",
-    "react-actioncable-provider": "^2.0.0",
     "react-bootstrap": "^1.0.0-beta.8",
     "react-dom": "^16.8.6",
     "react-icons": "^3.6.1",
     "react-router-dom": "^5.0.0",
-    "react-scripts": "2.1.8"
+    "react-scripts": "2.1.8",
+    "react-test-renderer": "^16.8.6"
   },
   "scripts": {
     "start": "react-scripts start",

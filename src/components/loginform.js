@@ -9,7 +9,8 @@ class LoginForm extends Component {
 	constructor() {
 		super();
 		this.state = {
-			loginData: {},
+			email: "",
+			password: "",
 			form_errors: {},
 			errors: {}
 		}
@@ -24,16 +25,16 @@ class LoginForm extends Component {
 	}  
 
 	handleChange(e) {
-		const loginData = this.state.loginData;
-		loginData[e.target.name] = e.target.value;
-		this.setState({
-			loginData
+		const name = e.target.name;
+     	const value = e.target.value;
+    	this.setState({ 
+        	[name]: value,
 		})
 	}
 
 	validateForm() {
-		const email = this.state.loginData.email;
-		const password = this.state.loginData.password;		
+		const email = this.state.email;
+		const password = this.state.password;		
 		let form_errors = {};
 		let formIsValid = true;
 
@@ -65,6 +66,9 @@ class LoginForm extends Component {
 
 	handleLogin(e) {
 		e.preventDefault();
+		const loginData = {}
+		loginData["email"] = this.state.email
+		loginData["password"] = this.state.password
 		if ( this.validateForm() ) {		    
 		    fetch(`${API_ROOT}/login`, { 
 		      method: 'POST', 

@@ -72,7 +72,7 @@ class LoginForm extends Component {
 		if ( this.validateForm() ) {		    
 		    fetch(`${API_ROOT}/login`, { 
 		      method: 'POST', 
-		      body: JSON.stringify(this.state.loginData), 
+		      body: JSON.stringify(loginData), 
 		      headers: {
 		        'Content-Type': 'application/json'
 		      }

@@ -94,12 +94,12 @@ class NewRequest extends Component {
 				<Form onSubmit={this.handleNewRequest}>
 					<Form.Group>
 						<Form.Label>Title</Form.Label>
-						<Form.Control type="text" name="title"  onChange={this.handleChange} autocomplete="off"/>
+						<Form.Control type="text" name="title"  onChange={this.handleChange} autoComplete="off"/>
 						<Form.Text className="text-danger">{this.state.errors.title}</Form.Text>
 					</Form.Group>
 					<Form.Group>
 						<Form.Label>Description</Form.Label>
-						<Form.Control as="textarea" rows="3" name="body" onChange={this.handleChange} autocomplete="off"/>
+						<Form.Control as="textarea" rows="3" name="body" onChange={this.handleChange} autoComplete="off"/>
 						<Form.Text className="text-danger">{this.state.errors.body}</Form.Text>
 					</Form.Group>
 					<Form.Group>

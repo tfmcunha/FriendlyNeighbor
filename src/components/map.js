@@ -10,7 +10,7 @@ class RequestMap extends Component {
 			selectedPlace: {}
 		};        	
     	this.onMapClick = this.onMapClick.bind(this); 
-    	this.dragtest = this.dragtest.bind(this);    	
+    	this.mapDragged = this.mapDragged.bind(this);    	
 	}
 
 	onMapClick(props, map, e) {		
@@ -28,7 +28,7 @@ class RequestMap extends Component {
   		return icon
 	}
 
-	dragtest(props, map) {
+	mapDragged(props, map) {
 		let newCenter = {lat:"", lng:""};
 		newCenter["lat"] = map.getCenter().lat();
 		newCenter["lng"] = map.getCenter().lng();

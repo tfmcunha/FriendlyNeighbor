@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { ListGroup } from 'react-bootstrap';
 
 class RequestsList extends Component {		
-	render() {
-		console.log(this.props.requests)
+	render() {		
 		return(
 			<div className="p-3 detailbox text-center">
 				<h3>Requests</h3>

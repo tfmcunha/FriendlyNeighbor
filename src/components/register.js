@@ -141,7 +141,7 @@ class Register extends Component {
       			<Form onSubmit={this.handleRegister}>		      		
               <Form.Group>
                 <Form.Label>E-mail</Form.Label>
-                <Form.Control type="email" name="email"value={this.state.email} onChange={this.handleChange} autocomplete="off"/>                
+                <Form.Control type="email" name="email"value={this.state.email} onChange={this.handleChange} autoComplete="off"/>                
                 <Form.Text className="text-danger">{this.state.errors.email}</Form.Text>
                 <ErrorsHandler errors={this.state.apierrors.email} field="Email" />
               </Form.Group> 
@@ -152,12 +152,12 @@ class Register extends Component {
               </Form.Group>     
               <Form.Group>
                 <Form.Label>First name</Form.Label>
-                <Form.Control type="text" name="first_name" value={this.state.first_name} onChange={this.handleChange} autocomplete="off"/>
+                <Form.Control type="text" name="first_name" value={this.state.first_name} onChange={this.handleChange} autoComplete="off"/>
   		      		<Form.Text className="text-danger">{this.state.errors.first_name}</Form.Text>
               </Form.Group> 
               <Form.Group>
                 <Form.Label>Last name</Form.Label>
-                <Form.Control type="text" name="last_name" value={this.state.last_name} onChange={this.handleChange} autocomplete="off"/>
+                <Form.Control type="text" name="last_name" value={this.state.last_name} onChange={this.handleChange} autoComplete="off"/>
                 <Form.Text className="text-danger">{this.state.errors.last_name}</Form.Text>
               </Form.Group> 
               <Form.Group> 

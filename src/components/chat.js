@@ -150,7 +150,7 @@ class Chat extends Component {
 			       			<Form onSubmit={this.handleNewMessage}>
 							    <Form.Row>
 							    	<Col xs={10}>
-							      		<Form.Control type="text" placeholder="Write message here" name="body" value={this.state.message.body} onChange={this.handleChange} autocomplete="off"/>
+							      		<Form.Control type="text" placeholder="Write message here" name="body" value={this.state.message.body} onChange={this.handleChange} autoComplete="off"/>
 							   		</Col>
 							  		<Col xs={2}>
 								  		<Button variant="primary" type="submit" className="d-flex ml-auto">

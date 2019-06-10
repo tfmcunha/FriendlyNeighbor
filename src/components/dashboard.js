@@ -86,8 +86,7 @@ class Dashboard extends Component {
 		.catch(error => console.log('An error occured ', error))			
 	}
 
-	onMapDrag(newCenter) {	
-		console.log(newCenter);	
+	onMapDrag(newCenter) {			
 		this.setState({
 			currentLocation: newCenter
 		}, () => this.fetchRequests()
@@ -127,8 +126,6 @@ class Dashboard extends Component {
 		this.setState({
 			currentRequest
 		})	
-		console.log(request)
-
 	}
 
 	handleShow(lat, lng) {

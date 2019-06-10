@@ -5,14 +5,8 @@ import Auth from '../modules/auth';
 import '../css/menu.css';
 
 class Menu extends Component {
-	constructor() {
-		super();
-	    this.state = { show: false};
-	    this.handleShow=this.handleShow.bind(this); 
-	    this.handleClose=this.handleClose.bind(this); 		
-	}
-
-	handleLogout() {
+	
+	handleLogout = (e) => {
 		fetch(`${API_ROOT}/logout`, {
 			method: 'delete',
 			headers: {
@@ -22,15 +16,6 @@ class Menu extends Component {
 		.then(res => res.json())
 		.then(json => console.log(json));
 		Auth.deauthenticateUser();
-	}
-
-
-	handleShow() {
-		this.setState({ show: true });
-	}
-
-	handleClose() {
-		this.setState({ show: false });
 	}
 
 	render() {
@@ -50,7 +35,6 @@ class Menu extends Component {
 			     		</Nav>
 		     		</Navbar.Collapse>
 	     		</Navbar>
-
 
       		</Fragment>
     	);

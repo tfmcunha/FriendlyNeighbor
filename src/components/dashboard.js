@@ -106,13 +106,7 @@ class Dashboard extends Component {
             })
         }
 	}
-
-	handleLogout() {
-		Auth.deauthenticateUser();
-	}
-
 	
-
 	handleRequest(request_id) {
 		let currentRequest = this.state.requests.find(request => request.id === request_id)	
 		this.setState({
@@ -192,14 +186,21 @@ class Dashboard extends Component {
 				<Route 
 					exact path={"/dashboard/request"}
 					render={() => 					
-						<Request user_id={this.state.user.id} request={this.state.currentRequest} />      					      				
+						<Request 
+							user_id={this.state.user.id} 
+							request={this.state.currentRequest} 
+						/>      					      				
 					}
 				/>   
 
 				<Route 
 					exact path="/dashboard/profile"
 					render={() => 					
-						<Profile user={this.state.user} handleOwnRequest={this.handleOwnRequest} handleAuth={this.props.handleAuth}/>      					      				
+						<Profile 
+							user={this.state.user} 
+							handleOwnRequest={this.handleOwnRequest} 
+							handleAuth={this.props.handleAuth}
+						/>      					      				
 					}
 				/>   
 

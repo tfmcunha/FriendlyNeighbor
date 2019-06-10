@@ -50,7 +50,7 @@ class RequestMap extends Component {
 					zoomControl={false}
 					scrollwheel={false}
 					onClick={this.onMapClick}
-					onDragend={this.dragtest}
+					onDragend={this.mapDragged}
 				>
 
 		          	{this.props.requests.map(request => (

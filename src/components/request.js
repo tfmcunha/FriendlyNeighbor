@@ -12,6 +12,7 @@ class Request extends Component {
 	constructor() {
 		super();
 		this.state = {
+			conversation: {},
 			selected:"",
 			fulfilled: false,
 			redirect: false,
@@ -23,7 +24,7 @@ class Request extends Component {
 		this.deleteVolunteer = this.deleteVolunteer.bind(this);
 	}
 
-	componentWillMount() {
+	componentDidMount() {
 		if (this.props.user_id !== this.props.request.user_id) {
 			const volunteer = {};
 			volunteer["request_id"] = this.props.request.id;
@@ -38,7 +39,11 @@ class Request extends Component {
 				body: JSON.stringify(volunteer)
 			})
 			.then(res => res.json())
-			.then(json => {console.log("ok")})
+			.then(json => {
+				this.setState({
+					conversation: json
+				})
+			})
 		}
 	}
 
@@ -78,6 +83,8 @@ class Request extends Component {
 	render() {	
 
 		const request = this.props.request;	
+		const conversation = this.state.conversation;
+		
 		return(
 			<Fragment>
 				<Row>
@@ -132,7 +139,7 @@ class Request extends Component {
 						</ListGroup>
 					</div>	
 					}		
-						<Chat request_id={this.props.request.id} selected={this.state.selected} sender_id={this.props.user_id} recipient_id={this.props.request.user_id}/>
+						<Chat request_id={this.props.request.id} conversation={conversation} selected={this.state.selected} sender_id={this.props.user_id} recipient_id={this.props.request.user_id}/>
 					
 					</Col>			
 				</Row>

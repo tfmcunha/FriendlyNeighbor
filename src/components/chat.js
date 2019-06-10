@@ -32,14 +32,14 @@ class Chat extends Component {
     	);
 	}
 
-	componentWillMount() {
-		if (this.props.sender_id !== this.props.recipient_id) {			
-			const conversation = {request_id: this.props.request_id, sender_id: this.props.sender_id};
-			this.handleConversation(conversation)
-		};
-	}
-
 	componentDidUpdate(prevProps) {	
+		if (prevProps.conversation !== this.props.conversation) {
+			this.setState({
+				conversation: this.props.conversation.messages,
+				conversation_id: this.props.conversation.id
+			});
+			this.createSocket(this.props.conversation.id);
+		}
 		if (prevProps.selected !== this.props.selected) {
 			if (this.props.sender_id === this.props.recipient_id) {
 				const conversation = {request_id: this.props.request_id, sender_id: this.props.selected};
@@ -65,7 +65,7 @@ class Chat extends Component {
 	    	this.setState({
 	    		conversation_id: json.id,
 	    		conversation: json.messages
-	    	}, () => this.createSocket(json.id))
+	    	}, () => this.createSocket(json.id));
 	    })
 	}
 

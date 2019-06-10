@@ -65,8 +65,7 @@ class Chat extends Component {
 	    	this.setState({
 	    		conversation_id: json.id,
 	    		conversation: json.messages
-	    	})	    	
-			this.createSocket(json.id);
+	    	}, () => this.createSocket(json.id))
 	    })
 	}
 

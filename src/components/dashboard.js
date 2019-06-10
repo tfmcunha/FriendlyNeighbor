@@ -77,12 +77,13 @@ class Dashboard extends Component {
 		})
 		.then(res => res.json())
 		.then(json => {
-			if ( json !== undefined ) {
+			
 				this.setState({
 					requests: json
 				});						
-			}
-		})			
+			
+		})
+		.catch(error => console.log('An error occured ', error))			
 	}
 
 	onMapDrag(newCenter) {	

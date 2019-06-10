@@ -34,9 +34,9 @@ class Profile extends Component {
 			this.setState({
 				owned_requests: json.requests,
 				isVolunteer: json.isVolunteer
-			});	
-			console.log(json)		
+			});		
 		})
+		.catch(error => console.log('An error occured ', error))
 
 		
 	}

@@ -38,11 +38,10 @@ class Menu extends Component {
      		<Fragment>
 
 	     		<Navbar bg="light" expand="sm" className="menu" >
-		     		<Navbar.Brand className="brand p-2" href="/">Friendly Neighbour</Navbar.Brand>
+		     		<Navbar.Brand className="brand p-2" href="/">Friendly Neighbour</Navbar.Brand>		     		
 		     		<Navbar.Toggle aria-controls="basic-navbar-nav" />
 		     		<Navbar.Collapse id="basic-navbar-nav">
-			     		<Nav className="ml-auto">			     		
-				     		
+			     		<Nav className="ml-auto">				     		
 				     		<NavDropdown title={`Hello, ${this.props.user.first_name}`} id="basic-nav-dropdown">
 				     		<NavDropdown.Item href="/dashboard/profile">Profile</NavDropdown.Item>
 				     		<NavDropdown.Divider />

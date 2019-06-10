@@ -106,12 +106,12 @@ class LoginForm extends Component {
 	      			<Form onSubmit={this.handleLogin}>
 	      				<Form.Group>
 	      					<Form.Label>E-mail</Form.Label>
-			      			<Form.Control type="text" name="email" value={this.state.email} onChange={this.handleChange}/>
+			      			<Form.Control type="text" name="email" value={this.state.email} onChange={this.handleChange} autocomplete="off"/>
 			      			<Form.Text className="text-danger">{this.state.form_errors.email}</Form.Text>
 						</Form.Group>		      			
 			      		<Form.Group>
 			      			<Form.Label>Password</Form.Label>
-			      			<Form.Control type="password" name="password" value={this.state.password} onChange={this.handleChange}/>
+			      			<Form.Control type="password" name="password" value={this.state.password} onChange={this.handleChange} />
 			      			<Form.Text className="text-danger">{this.state.form_errors.password}</Form.Text>
 			      		</Form.Group>
 			      		{errors !== undefined &&

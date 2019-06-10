@@ -139,7 +139,7 @@ class Chat extends Component {
 		       			{messages !== undefined &&
 		       				messages.map(message => (
 		       					<div key={message.id} className="d-flex ">	       						
-		       						<div className={`${this.setUserMessageLayout(message.user_id)} p-2 my-2 message`}>
+		       						<div className={`${this.setUserMessageLayout(message.user_id)} p-2 m-2 message`}>
 		       							<span className="d-block user">{message.user_name} says:</span>
 		       							<span>{message.body}</span>
 
@@ -147,20 +147,20 @@ class Chat extends Component {
 		       					</div>
 		       				))}
 		       			</div>
-
-		       			<Form onSubmit={this.handleNewMessage}>
-						  <Form.Row>
-						    <Col xs={10}>
-						      <Form.Control type="text" placeholder="Write message here" name="body" value={this.state.message.body} onChange={this.handleChange}/>
-						   	</Col>
-						  	<Col xs={2}>
-							  <Button variant="primary" type="submit">
-							    Send
-							  </Button>
-							</Col>
-						  	</Form.Row>
-						</Form>
-
+		       			<div>
+			       			<Form onSubmit={this.handleNewMessage}>
+							    <Form.Row>
+							    	<Col xs={10}>
+							      		<Form.Control type="text" placeholder="Write message here" name="body" value={this.state.message.body} onChange={this.handleChange} autocomplete="off"/>
+							   		</Col>
+							  		<Col xs={2}>
+								  		<Button variant="primary" type="submit" className="d-flex ml-auto">
+								    		OK
+								  		</Button>
+									</Col>
+							  	</Form.Row>
+							</Form>
+						</div>
 					</div>
 				</Col>
 			</Row>

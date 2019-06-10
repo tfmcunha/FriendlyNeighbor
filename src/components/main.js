@@ -30,7 +30,7 @@ class Main extends Component {
 
 	render() {
 		return (        
-			<div> 	
+			<div className="mb-5"> 	
 
 				<Route 
 					exact path="/" 

@@ -114,7 +114,7 @@ class Chat extends Component {
     	const message = this.state.message;
     	message["conversation_id"] = this.state.conversation_id;
     	message["user_id"]= this.props.sender_id;
-    	fetch(`${API_ROOT}/messages'`, { 
+    	fetch(`${API_ROOT}/messages`, { 
        		method: 'POST', 
         	body: JSON.stringify(this.state.message), 
         	headers: {

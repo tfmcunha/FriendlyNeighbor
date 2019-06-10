@@ -77,10 +77,11 @@ class Dashboard extends Component {
 		})
 		.then(res => res.json())
 		.then(json => {
-			this.setState({
-				requests: json
-			});			
-			console.log("teste:",json)
+			if ( json !== undefined ) {
+				this.setState({
+					requests: json
+				});						
+			}
 		})			
 	}
 

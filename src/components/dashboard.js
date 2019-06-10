@@ -22,8 +22,7 @@ class Dashboard extends Component {
 			currentRequest: {},	
 			newLocation: {},
 			show: false
-		}
-		this.handleLogout = this.handleLogout.bind(this);
+		}		
 		this.handleRequest = this.handleRequest.bind(this);		
 		this.handleOwnRequest = this.handleOwnRequest.bind(this);		
 		this.handleClose = this.handleClose.bind(this);
@@ -33,13 +32,8 @@ class Dashboard extends Component {
 
 	componentWillMount() {   
 		this.getLocation(); 
-		this.fetchProfile();
-		
-		
+		this.fetchProfile();		
 	}
-
-
-
 
 	fetchProfile() {
 		fetch(`${API_ROOT}/profile`, { 

@@ -80,6 +80,7 @@ class Dashboard extends Component {
 			this.setState({
 				requests: json
 			});			
+			console.log("teste:",json)
 		})			
 	}
 

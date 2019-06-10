@@ -133,12 +133,11 @@ class Chat extends Component {
 		return(
 			<Row>		     					
        			<Col>
-       			 	<div className="p-2 chatcontainer mt-3">
-       			 	
+       			 	<div className="p-2 chatcontainer mt-3">       			 	
 		       			<div ref={this.chatbox} className="max-vh-25 overflow-auto chatbox">
 		       			{messages !== undefined &&
 		       				messages.map(message => (
-		       					<div key={message.id} className="d-flex ">	       						
+		       					<div key={message.id} className="d-flex">	       						
 		       						<div className={`${this.setUserMessageLayout(message.user_id)} p-2 m-2 message`}>
 		       							<span className="d-block user">{message.user_name} says:</span>
 		       							<span>{message.body}</span>

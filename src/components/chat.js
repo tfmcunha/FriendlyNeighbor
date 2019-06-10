@@ -15,8 +15,7 @@ class Chat extends Component {
 			message: {
 				body:""
 			}
-		};
-		
+		};		
 		this.handleChange = this.handleChange.bind(this);
 		this.handleNewMessage = this.handleNewMessage.bind(this);		
 		this.handleReceived = this.handleReceived.bind(this);

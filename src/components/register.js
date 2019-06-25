@@ -122,7 +122,7 @@ class Register extends Component {
             this.handleAuthentication();   
           } else {                    
             this.setState({
-              apierrors: JSON.parse(JSON.stringify(json.errors))
+              apierrors: json.errors
             })
           }   
       })

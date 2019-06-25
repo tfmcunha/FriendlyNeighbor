@@ -9,9 +9,9 @@ class RequestsList extends Component {
 					<ListGroup>
 		      		{this.props.requests !== undefined &&
 		      			this.props.requests.length !== 0 ?
-			      			this.props.requests.map(request => {
-			      				return <ListGroup.Item className="text-truncate" action key={request.id} onClick={(e) => this.props.handleRequest(request.id)}>{request.title}</ListGroup.Item>			      			 
-			    	  		}) 
+			      			this.props.requests.map(request => 
+			      				<ListGroup.Item className="text-truncate" action key={request.id} onClick={(e) => this.props.handleRequest(request.id)}>{request.title}</ListGroup.Item>			      			 
+			    	  		) 
 			    	  		: <h6>No requests available in this area. <br />Drag map to find</h6>
 		    	  	}
 		      		</ListGroup>

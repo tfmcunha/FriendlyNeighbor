@@ -26,11 +26,11 @@ class Dashboard extends Component {
 		this.handleRequest = this.handleRequest.bind(this);		
 		this.handleOwnRequest = this.handleOwnRequest.bind(this);		
 		this.handleClose = this.handleClose.bind(this);
-		this.handleShow = this.handleShow.bind(this);
+		this.handleNewRequest = this.handleNewRequest.bind(this);
 		this.onMapDrag = this.onMapDrag.bind(this);
 	}
 
-	componentWillMount() {   
+	componentWillMount() {
 		this.getLocation(); 
 		this.fetchProfile();		
 	}
@@ -116,12 +116,11 @@ class Dashboard extends Component {
 		})	
 	}
 
-	handleShow(lat, lng) {
+	handleNewRequest(lat, lng) {
 		const coords = {lat: lat, lng: lng}
 		this.setState({ 
 			show: true,
-			newLocation: coords 
-
+			newLocation: coords
 		});
 	}
 
@@ -136,7 +135,7 @@ class Dashboard extends Component {
 					<Redirect to="/" />
 				}
 
-				<Menu user={this.state.user} handleLogout={this.handleLogout}/>     
+				<Menu user={this.state.user} />     
 
 				<Route 
 				exact path="/dashboard" 
@@ -148,7 +147,7 @@ class Dashboard extends Component {
 										<RequestMap 
 											onMapDrag={this.onMapDrag} 
 											currentLocation={this.state.currentLocation} 
-											handleShow={this.handleShow} 
+											handleNewRequest={this.handleNewRequest} 
 											requests={this.state.requests}
 											handleRequest={this.handleRequest} 
 										/>

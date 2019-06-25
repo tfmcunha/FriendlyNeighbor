@@ -120,14 +120,10 @@ class LoginForm extends Component {
 	      						<Form.Text className="text-danger">*{error.detail}</Form.Text>
 	      					</Form.Group>
 	      				))
-	      			}
+	      				}
 			      		<Button variant="primary" type="submit" >OK</Button>		      		
-	      			</Form> 
-
-	      							
-      			
-      		</div>
-      				
+	      			</Form>      			
+      		</div>      				
     	);
   	}
 }

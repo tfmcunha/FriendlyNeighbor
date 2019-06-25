@@ -48,7 +48,7 @@ class Request extends Component {
 	}
 
 	selectVolunteer = (id) => {
-		this.setState({selected:id})
+		this.setState({selected: id})
 	}
 
 	handleFulfilled(e) {

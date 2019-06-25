@@ -2,20 +2,15 @@ import React, { Component, Fragment } from 'react';
 import { Map, Marker, GoogleApiWrapper } from 'google-maps-react';
 
 class RequestMap extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {						
-			showingInfoWindow: false,
-			activeMarker: {},
-			selectedPlace: {}
-		};        	
+	constructor() {
+		super();		      	
     	this.onMapClick = this.onMapClick.bind(this); 
     	this.mapDragged = this.mapDragged.bind(this);    	
 	}
 
 	onMapClick(props, map, e) {		
-		const { handleShow } = this.props;
-		handleShow(e.latLng.lat(), e.latLng.lng());
+		const { handleNewRequest } = this.props;
+		handleNewRequest(e.latLng.lat(), e.latLng.lng());
 	}
 
 	setMarkerColor(type){	

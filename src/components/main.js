@@ -14,12 +14,7 @@ class Main extends Component {
 			auth: Auth.isUserAuthenticated(),
 			show: false
 		};
-		this.handleAuthentication=this.handleAuthentication.bind(this);
-		this.handleLogout = this.handleLogout.bind(this);
-	}
-
-	handleLogout() {
-		Auth.deauthenticateUser();
+		this.handleAuthentication=this.handleAuthentication.bind(this);		
 	}
 
 	handleAuthentication() {

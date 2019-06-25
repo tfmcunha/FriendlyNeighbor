@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { API_ROOT } from '../constants';
-import { Redirect, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Auth from '../modules/auth';
 import { Row, Col, Form, Button, ListGroup } from 'react-bootstrap';
 import { FaBackward } from "react-icons/fa";
@@ -74,10 +74,6 @@ class Profile extends Component {
 					</Col>
 				</Row>
 				<Row>
-					{!(Auth.isUserAuthenticated()) &&
-						<Redirect to="/" />
-					}
-
 					<Col md={4}>
 						<div className="mt-2 border-top border-warning pb-3">
 							<h3 className="text-center">Edit your details</h3>

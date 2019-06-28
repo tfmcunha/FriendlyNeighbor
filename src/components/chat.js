@@ -20,19 +20,32 @@ class Chat extends Component {
 		this.handleNewMessage = this.handleNewMessage.bind(this);		
 		this.handleReceived = this.handleReceived.bind(this);
 		this.chatbox = React.createRef()
-
+		this.cable = ActionCable.createConsumer(`${API_WS_ROOT}`); //CREATES ACTION CABLE CONSUMER
 	}
 
+//WHEN CALLED, CHECKS IF A SUBSCRIPTION TO A CHANNEL EXISTS AND UNSUBSCRIBES THAT CHANNEL
+//THEN CREATES A SUBSCRIPTION TO THE CONVERSATION WITH PROVIDED ID
 	createSocket(id) {
-		const cable = ActionCable.createConsumer(`${API_WS_ROOT}`);
 		
-		this.sub = cable.subscriptions.create(
-      		{ channel: 'ConversationsChannel', conversation: id },
+		//this.subscription && this.subscription.unsubscribe()
+		
+		this.subscription = this.cable.subscriptions.create(
+	    	{ channel: 'ConversationsChannel', conversation: id },
 		    { received: (response) => { this.handleReceived(response) } }
-    	);
+	    )
+	}
+	componentDidMount(){
+		if (this.props.sender_id === this.props.recipient_id) {
+			this.props.channels &&
+			this.props.channels.map(channel => {
+				let id = Object.values(channel);
+				return this.createSocket(id[0])
+			})
+		}
 	}
 
 	componentDidUpdate(prevProps) {	
+		//CONDITIONAL TO
 		if (prevProps.conversation !== this.props.conversation) {
 			this.setState({
 				conversation: this.props.conversation.messages,
@@ -40,6 +53,7 @@ class Chat extends Component {
 			});
 			this.createSocket(this.props.conversation.id);
 		}
+		//CONDITIONAL TO CHECK IF THE SELECTED VOLUNTEER HAS CHANGED
 		if (prevProps.selected !== this.props.selected) {
 			if (this.props.sender_id === this.props.recipient_id) {
 				const conversation = {request_id: this.props.request_id, sender_id: this.props.selected};
@@ -47,10 +61,10 @@ class Chat extends Component {
 			};	
 		}
 		this.scrollToBottom()
-
 	}
 
-	handleConversation(conversation) {		
+//RETRIEVES THE CONVERSATION BETWEEN THE USER AND THE SELECTED VOLUNTEER
+	handleConversation(conversation) {
 		fetch(`${API_ROOT}/conversation`,{
 			method: "GET",
 			headers: {
@@ -65,10 +79,12 @@ class Chat extends Component {
 	    	this.setState({
 	    		conversation_id: json.id,
 	    		conversation: json.messages
-	    	}, () => this.createSocket(json.id));
+	    	})
+	    	//}, () => this.createSocket(json.id));
 	    })
 	}
 
+//FUNCTION THAT SCROLLS THE CHATBOX TO THE BOTTOM WHEN NEW MESSAGE IS RECEIVED
 	scrollToBottom(){
    		var chatbox = this.chatbox; 
    		if (chatbox.current !== null ) {		
@@ -76,19 +92,28 @@ class Chat extends Component {
    		}
 	}
 
+//PUSHES NEW MEESSAGE RECEIVED BY ACTIONCABLE INTO THE CONVERSATION ARRAY
 	handleReceived(response) {
 		let incoming = response.message;
 		let conversation_id = response.id;
 		let conversation = this.state.conversation;
+		if (( this.props.sender_id === this.props.recipient_id ) && ( this.props.recipient_id !== response.message.user_id )) {
+
+			if ( response.message.conversation_id !== this.state.conversation_id ) {
+				const getconversation = { request_id: this.props.request_id, sender_id: response.message.user_id };
+				this.handleConversation(getconversation);
+			}
+
+		}		
 		conversation.push(incoming);
 		this.setState({	
-				conversation, 
-				conversation_id			
-		});		
+			conversation, 
+			conversation_id			
+		});	
     }
-
     
-
+//CALLED IN className WHEN MAP() ITERATES THE MESSAGES TO DEFINE THE LAYOUT 
+//OF EACH MESSAGE ACCORDING TO THE USER 
     setUserMessageLayout = (id) => {
     	let clss = "";
     	if (id === this.props.sender_id) {
@@ -122,8 +147,7 @@ class Chat extends Component {
 	    .then(res => res.json())
 	    .then(json => {console.log("done")})
 	    e.target.reset();
-	    this.setState({message: {body: ""}})
-	      
+	    this.setState({message: {body: ""}})	      
     }
 
 	render() {			

@@ -1,9 +1,10 @@
 import React, { Component, Fragment } from 'react';
-import { API_ROOT } from '../constants';
+import { API_ROOT, API_WS_ROOT } from '../constants';
 import { Redirect, Link } from 'react-router-dom';
 import { MdDeleteForever } from "react-icons/md";
 import { FaBackward, FaUserAlt, FaTasks, FaInfo, FaExclamation } from "react-icons/fa";
 import {Row, Col, Image, ListGroup, Button, Overlay, Tooltip } from 'react-bootstrap';
+import ActionCable from 'actioncable';
 import Auth from '../modules/auth';
 import Chat from './chat';
 import '../css/request.css';
@@ -16,12 +17,14 @@ class Request extends Component {
 			selected:"",
 			fulfilled: false,
 			redirect: false,
-			show: false 
+			show: false,
+			volunteers: [] 
 
 		};
 		this.attachRef = target => this.setState({ target });    
 		this.handleFulfilled = this.handleFulfilled.bind(this);
-		this.deleteVolunteer = this.deleteVolunteer.bind(this);
+		this.deleteVolunteer = this.deleteVolunteer.bind(this);		
+		this.cable = ActionCable.createConsumer(`${API_WS_ROOT}`);
 	}
 
 	componentDidMount() {
@@ -44,7 +47,35 @@ class Request extends Component {
 					conversation: json
 				})
 			})
-		}
+		} else {
+			this.sub = this.cable.subscriptions.create(
+      			{ channel: 'AlertChannel' },
+		    	{ received: (response) => { this.handleAlert(response) } }
+    		);
+		}	
+		this.setState({
+			volunteers: this.props.request.volunteers
+		})		
+	}
+
+	handleAlert(response) {				
+		let volunteers = this.state.volunteers;
+		if (volunteers.every(volunteer => volunteer.user_id !== response.user_id)) {
+			volunteers.push(response)
+		 	this.setState({
+		 		volunteers,
+		 		highlight: response.user_id
+		 	})
+		} 
+		this.highlightVolunteer(response.user_id)
+	}
+
+	highlightVolunteer(id) {	
+		const elemId = `vol${id}`
+		console.log(elemId)
+		const highlighted = document.getElementById(elemId)
+		console.log(highlighted)
+		highlighted.classList.add('highlight')
 	}
 
 	selectVolunteer = (id) => {
@@ -83,7 +114,7 @@ class Request extends Component {
 	render() {	
 
 		const request = this.props.request;	
-		const conversation = this.state.conversation;
+		const { conversation, volunteers } = this.state;
 		
 		return(
 			<Fragment>
@@ -129,17 +160,32 @@ class Request extends Component {
 
 						<ListGroup>
 							<h4>Volunteers:</h4>
-							{request.volunteers !== undefined &&
-								request.volunteers.map(volunteer => (
-								<Row key={volunteer.id} >
-									<Col xs={8}><ListGroup.Item className="py-1 text-center" action onClick={(e) => this.selectVolunteer(volunteer.user_id)}>{volunteer.username}</ListGroup.Item></Col>
-									<Col xs={4}><Button variant="danger" size="sm" onClick={(e) => this.deleteVolunteer(volunteer.id)}><MdDeleteForever className="delete"/></Button></Col> 
+							{volunteers !== undefined &&
+								volunteers.map(volunteer => (
+								<Row key={volunteer.user_id} >
+									<Col xs={8} >
+										<div className="py-1 text-center" action onClick={(e) => this.selectVolunteer(volunteer.user_id)}>
+											{volunteer.username}
+										</div>
+									</Col>
+									<Col xs={4}>
+										<Button variant="danger" size="sm" onClick={(e) => this.deleteVolunteer(volunteer.id)}>
+											<MdDeleteForever className="delete"/>
+										</Button>
+									</Col> 
 								</Row>
 							))}								
 						</ListGroup>
 					</div>	
 					}		
-						<Chat request_id={this.props.request.id} conversation={conversation} selected={this.state.selected} sender_id={this.props.user_id} recipient_id={this.props.request.user_id}/>
+						<Chat 
+							request_id={this.props.request.id} 
+							conversation={conversation} 
+							selected={this.state.selected} 
+							sender_id={this.props.user_id} //THE VOLUNTEER
+							recipient_id={this.props.request.user_id} //THE REQUEST OWNER
+							channels={this.props.request.conversations} //EXISTING CONVERSATIONS TO SUBSCRIBE
+						/>
 					
 					</Col>			
 				</Row>

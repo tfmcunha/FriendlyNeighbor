@@ -11,6 +11,7 @@ import Request from './request';
 import Profile from './profile';
 import NewRequest from './newrequest';
 import '../css/dashboard.css';
+import { API_WS_ROOT } from '../constants';
 
 class Dashboard extends Component {
 	constructor() {
@@ -21,18 +22,20 @@ class Dashboard extends Component {
 			requests: [],
 			currentRequest: {},	
 			newLocation: {},
-			show: false
+			show: false,
+			alert: false
 		}		
 		this.handleRequest = this.handleRequest.bind(this);		
 		this.handleOwnRequest = this.handleOwnRequest.bind(this);		
 		this.handleClose = this.handleClose.bind(this);
 		this.handleNewRequest = this.handleNewRequest.bind(this);
 		this.onMapDrag = this.onMapDrag.bind(this);
+		
 	}
 
 	componentWillMount() {
 		this.getLocation(); 
-		this.fetchProfile();		
+		this.fetchProfile();			
 	}
 
 	fetchProfile() {
@@ -135,7 +138,7 @@ class Dashboard extends Component {
 					<Redirect to="/" />
 				}
 
-				<Menu user={this.state.user} />     
+				<Menu user={this.state.user} alert={this.state.alert}/>     
 
 				<Route 
 				exact path="/dashboard" 

@@ -7,3 +7,9 @@
 	width: 20px;
 	height: 20px;
 }
+
+.highlight {
+	background-color: lightgrey;
+	color: white;
+	font-weight: 700;
+}

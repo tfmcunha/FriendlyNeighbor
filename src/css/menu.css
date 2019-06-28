@@ -13,3 +13,8 @@
 	font-family: 'Cinzel', serif;
 	background-color: #fff7d2 !important	
 }
+
+.alert {
+	position: absolute;
+	right: 125px;
+}

@@ -11,7 +11,7 @@ class Auth {
 		sessionStorage.removeItem('token');
 	}
 
-	static getToken(token) {
+	static getToken() {
 		return sessionStorage.getItem('token');
 	}
 }

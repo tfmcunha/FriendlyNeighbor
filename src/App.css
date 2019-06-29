@@ -1,2 +1,8 @@
+.btn-primary {
+	background-color: #7e82e2 !important;
+	border-color: #7e82e2 !important;
+}
 
-
+a {
+	color: #7e82e2;
+}

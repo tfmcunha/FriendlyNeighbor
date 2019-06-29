@@ -25,23 +25,22 @@ class Chat extends Component {
 
 //WHEN CALLED, CHECKS IF A SUBSCRIPTION TO A CHANNEL EXISTS AND UNSUBSCRIBES THAT CHANNEL
 //THEN CREATES A SUBSCRIPTION TO THE CONVERSATION WITH PROVIDED ID
-	createSocket(id) {
-		
-		//this.subscription && this.subscription.unsubscribe()
-		
+	createSubscription(id) {
 		this.subscription = this.cable.subscriptions.create(
 	    	{ channel: 'ConversationsChannel', conversation: id },
 		    { received: (response) => { this.handleReceived(response) } }
 	    )
 	}
+	
 	componentDidMount(){
 		if (this.props.sender_id === this.props.recipient_id) {
 			this.props.channels &&
 			this.props.channels.map(channel => {
 				let id = Object.values(channel);
-				return this.createSocket(id[0])
+				return this.createSubscription(id[0])
 			})
 		}
+		console.log("this.props.channels")
 	}
 
 	componentDidUpdate(prevProps) {	
@@ -51,7 +50,7 @@ class Chat extends Component {
 				conversation: this.props.conversation.messages,
 				conversation_id: this.props.conversation.id
 			});
-			this.createSocket(this.props.conversation.id);
+			this.createSubscription(this.props.conversation.id);
 		}
 		//CONDITIONAL TO CHECK IF THE SELECTED VOLUNTEER HAS CHANGED
 		if (prevProps.selected !== this.props.selected) {

@@ -14,11 +14,11 @@ class Request extends Component {
 		super();
 		this.state = {
 			conversation: {},
-			selected:"",
+			selected: "",
 			fulfilled: false,
 			redirect: false,
 			show: false,
-			volunteers: [] 
+			volunteers: [], 
 
 		};
 		this.attachRef = target => this.setState({ target });    
@@ -58,24 +58,34 @@ class Request extends Component {
 		})		
 	}
 
-	handleAlert(response) {				
-		let volunteers = this.state.volunteers;
-		if (volunteers.every(volunteer => volunteer.user_id !== response.user_id)) {
-			volunteers.push(response)
-		 	this.setState({
-		 		volunteers,
-		 		highlight: response.user_id
-		 	})
-		} 
-		this.highlightVolunteer(response.user_id)
+	componentDidUpdate(prevProps, prevState) {
+		if (prevState.selected !== this.state.selected) {
+			this.highlightVolunteer(this.state.selected)
+		}
+	}
+
+	handleAlert(response) {	
+		console.log(this.cable.subscriptions)
+		if ( response.user_id !== this.props.user_id ) {			
+			let volunteers = this.state.volunteers;
+			if ( volunteers.every(volunteer => volunteer.user_id !== response.user_id)) {
+				volunteers.push(response)
+			 	this.setState({
+			 		volunteers
+			 	});		 	
+			} 
+			this.highlightVolunteer(response.user_id)		
+		}
 	}
 
 	highlightVolunteer(id) {	
-		const elemId = `vol${id}`
-		console.log(elemId)
-		const highlighted = document.getElementById(elemId)
-		console.log(highlighted)
-		highlighted.classList.add('highlight')
+		const volunteers = document.getElementsByClassName("volunteers")
+		for ( var i=0; i<volunteers.length; i++ ) {
+			volunteers[i].classList.remove("highlighted")
+		}
+		const x = `vol${id}`
+		console.log(document.getElementById(x))
+		document.getElementById(x).classList.add("highlighted")
 	}
 
 	selectVolunteer = (id) => {
@@ -162,13 +172,13 @@ class Request extends Component {
 							<h4>Volunteers:</h4>
 							{volunteers !== undefined &&
 								volunteers.map(volunteer => (
-								<Row key={volunteer.user_id} >
-									<Col xs={8} >
-										<div className="py-1 text-center" action onClick={(e) => this.selectVolunteer(volunteer.user_id)}>
+								<Row key={volunteer.user_id} className="my-1">
+									<Col xs={9} >
+										<div id={`vol${volunteer.user_id}`} className="volunteers py-1 text-center" onClick={(e) => this.selectVolunteer(volunteer.user_id)}>
 											{volunteer.username}
 										</div>
 									</Col>
-									<Col xs={4}>
+									<Col xs={3}>
 										<Button variant="danger" size="sm" onClick={(e) => this.deleteVolunteer(volunteer.id)}>
 											<MdDeleteForever className="delete"/>
 										</Button>

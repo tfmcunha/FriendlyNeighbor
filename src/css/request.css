@@ -8,8 +8,39 @@
 	height: 20px;
 }
 
-.highlight {
-	background-color: lightgrey;
-	color: white;
-	font-weight: 700;
+.volunteers {
+  margin-left: 50px;
+  margin-right: 50px;
+  border-radius: 10px;
+  transition: background 1s;
+}
+
+.volunteers:hover {
+  background-color: rgba(255, 230, 174, 0.5);  
+}
+
+.highlighted {
+  position: relative;
+  background-color: #e6a81b;
+  color: white;
+  transition: background 1s, margin 1s;
+  border-radius: 10px;
+  box-shadow: 0 0 5px #e6a81b;
+  margin-left: 25px;
+  margin-right: 25px;
+}
+
+.highlighted:hover {
+  background-color: #e6a81b;
+}
+
+.highlighted::after {
+  position: absolute;
+  z-index: -1;
+  content:"";
+  height:1px;
+  width: 90%;
+  box-shadow: 0 5px 20px 5px #e6a81b;
+  left:15px;
+  bottom: 0
 }

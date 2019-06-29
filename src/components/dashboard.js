@@ -11,7 +11,6 @@ import Request from './request';
 import Profile from './profile';
 import NewRequest from './newrequest';
 import '../css/dashboard.css';
-import { API_WS_ROOT } from '../constants';
 
 class Dashboard extends Component {
 	constructor() {

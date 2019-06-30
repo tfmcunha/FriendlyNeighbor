@@ -14,7 +14,8 @@ class Chat extends Component {
 			conversation: [],
 			message: {
 				body:""
-			}
+			},
+			channels: [],
 		};		
 		this.handleChange = this.handleChange.bind(this);
 		this.handleNewMessage = this.handleNewMessage.bind(this);		
@@ -34,16 +35,17 @@ class Chat extends Component {
 	
 	componentDidMount(){
 		if (this.props.sender_id === this.props.recipient_id) {
-			this.props.channels &&
-			this.props.channels.map(channel => {
-				let id = Object.values(channel);
-				return this.createSubscription(id[0])
-			})
+			this.props.channels && 
+			this.setState({channels: this.props.channels}, () => {				
+				this.state.channels.map(channel => this.createSubscription(channel))
+			})			
 		}
-		console.log("this.props.channels")
 	}
 
-	componentDidUpdate(prevProps) {	
+	componentDidUpdate(prevProps, prevState) {			
+		if (this.props.newChannel !== prevProps.newChannel) {
+			this.createSubscription(this.props.newChannel)
+		}
 		//CONDITIONAL TO
 		if (prevProps.conversation !== this.props.conversation) {
 			this.setState({
@@ -149,7 +151,7 @@ class Chat extends Component {
 	    this.setState({message: {body: ""}})	      
     }
 
-	render() {			
+	render() {		
 		const messages = this.state.conversation;		
 		return(
 			<Row>		     					

@@ -19,6 +19,8 @@ class Request extends Component {
 			redirect: false,
 			show: false,
 			volunteers: [], 
+			channels: [],
+			newChannel: "",
 
 		};
 		this.attachRef = target => this.setState({ target });    
@@ -49,13 +51,14 @@ class Request extends Component {
 			})
 		} else {
 			this.sub = this.cable.subscriptions.create(
-      			{ channel: 'AlertChannel' },
+      			{ channel: 'RequestsChannel', request: this.props.request.id },
 		    	{ received: (response) => { this.handleAlert(response) } }
     		);
 		}	
 		this.setState({
-			volunteers: this.props.request.volunteers
-		})		
+			volunteers: this.props.request.volunteers,			
+		})
+		this.createChannels();		
 	}
 
 	componentDidUpdate(prevProps, prevState) {
@@ -63,10 +66,30 @@ class Request extends Component {
 			this.highlightVolunteer(this.state.selected)
 		}
 	}
+//CREATES ARRAY WITH EXISTING CONVERSATIONS TO SUBSCRIBE TO THEIR CHANNELS
+	createChannels() {
+		const channels = this.state.channels;
+		this.props.request && 
+		this.props.request.conversations.map(conv => {
+			const id = Object.values(conv);			
+			channels.push(id[0])			
+			return channels
+		})
+		this.setState({channels})		
+	}
 
-	handleAlert(response) {	
-		console.log(this.cable.subscriptions)
+	handleAlert(response) {			
 		if ( response.user_id !== this.props.user_id ) {			
+
+			if ( this.state.channels.every(channel => channel !== response.conversation_id)) {
+				const channels = this.state.channels;
+				channels.push(response.conversation_id);
+				this.setState({
+					channels,
+					newChannel: response.conversation_id
+				})
+			} 
+
 			let volunteers = this.state.volunteers;
 			if ( volunteers.every(volunteer => volunteer.user_id !== response.user_id)) {
 				volunteers.push(response)
@@ -84,7 +107,6 @@ class Request extends Component {
 			volunteers[i].classList.remove("highlighted")
 		}
 		const x = `vol${id}`
-		console.log(document.getElementById(x))
 		document.getElementById(x).classList.add("highlighted")
 	}
 
@@ -194,7 +216,8 @@ class Request extends Component {
 							selected={this.state.selected} 
 							sender_id={this.props.user_id} //THE VOLUNTEER
 							recipient_id={this.props.request.user_id} //THE REQUEST OWNER
-							channels={this.props.request.conversations} //EXISTING CONVERSATIONS TO SUBSCRIBE
+							channels={this.state.channels} //EXISTING CONVERSATIONS TO SUBSCRIBE
+							newChannel={this.state.newChannel}
 						/>
 					
 					</Col>			

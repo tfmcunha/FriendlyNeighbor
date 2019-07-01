@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { API_ROOT } from '../constants';
-import { Route, Redirect } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import { Row, Col, Modal } from 'react-bootstrap';
 import Auth from '../modules/auth';
 import Menu from './menu';
@@ -10,6 +10,7 @@ import RequestDetail from './requestdetail';
 import Request from './request';
 import Profile from './profile';
 import NewRequest from './newrequest';
+import NotFound from './404notfound';
 import '../css/dashboard.css';
 
 class Dashboard extends Component {
@@ -139,65 +140,70 @@ class Dashboard extends Component {
 
 				<Menu user={this.state.user} alert={this.state.alert}/>     
 
-				<Route 
-				exact path="/dashboard" 
-					render={() => 
-						<Fragment>
-							<Row>
-								<Col md={9}>
-									<div className="map-container">
-										<RequestMap 
-											onMapDrag={this.onMapDrag} 
-											currentLocation={this.state.currentLocation} 
-											handleNewRequest={this.handleNewRequest} 
-											requests={this.state.requests}
-											handleRequest={this.handleRequest} 
-										/>
-									</div>
-								</Col>
-								<Col md={3}>
-									<div className="my-2">
-										<RequestsList 
-											requests={this.state.requests} 
-											handleRequest={this.handleRequest} 
-										/>
-									</div>
-								</Col>
-							</Row>
-							<Row>
-								<Col>
-									<div className="m-2 p-2">
-										<RequestDetail 
-											user_id={this.state.user.id} 
-											request={this.state.currentRequest} 
-										/>    
-									</div>
-								</Col>
-							</Row>
-						</Fragment>
-					} 
-				/> 
+				<Switch>
+					<Route 
+					exact path="/dashboard" 
+						render={() => 
+							<Fragment>
+								<Row>
+									<Col md={9}>
+										<div className="map-container">
+											<RequestMap 
+												onMapDrag={this.onMapDrag} 
+												currentLocation={this.state.currentLocation} 
+												handleNewRequest={this.handleNewRequest} 
+												requests={this.state.requests}
+												handleRequest={this.handleRequest} 
+											/>
+										</div>
+									</Col>
+									<Col md={3}>
+										<div className="my-2">
+											<RequestsList 
+												requests={this.state.requests} 
+												handleRequest={this.handleRequest} 
+											/>
+										</div>
+									</Col>
+								</Row>
+								<Row>
+									<Col>
+										<div className="m-2 p-2">
+											<RequestDetail 
+												user_id={this.state.user.id} 
+												request={this.state.currentRequest} 
+											/>    
+										</div>
+									</Col>
+								</Row>
+							</Fragment>
+						} 
+					/> 
 
-				<Route 
-					exact path={"/dashboard/request"}
-					render={() => 					
-						<Request 
-							user_id={this.state.user.id} 
-							request={this.state.currentRequest} 
-						/>      					      				
-					}
-				/>   
+					<Route 
+						exact path={"/dashboard/request"}
+						render={() => 					
+							<Request 
+								user_id={this.state.user.id} 
+								request={this.state.currentRequest} 
+							/>      					      				
+						}
+					/>   
 
-				<Route 
-					exact path="/dashboard/profile"
-					render={() => 					
-						<Profile 
-							user={this.state.user} 
-							handleOwnRequest={this.handleOwnRequest} 
-							handleAuth={this.props.handleAuth}
-						/>      					      				
-					}
-				/>   
+					<Route 
+						exact path="/dashboard/profile"
+						render={() => 					
+							<Profile 
+								user={this.state.user} 
+								handleOwnRequest={this.handleOwnRequest} 
+								handleAuth={this.props.handleAuth}
+							/>      					      				
+						}
+					/> 
+
+					<Route component={NotFound} />
+
+				</Switch>
 
 				<Modal size="lg" show={this.state.show} onHide={this.handleClose}> 
 					<NewRequest user_id={this.state.user.id} newLocation={this.state.newLocation} close={this.handleClose} />

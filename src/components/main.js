@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import Auth from '../modules/auth';
 import Footer from './footer';
 import Splash from './splash';
 import Dashboard from './dashboard';
 import Help from './help';
+import NotFound from './404notfound';
 
 class Main extends Component {
 	constructor() {
@@ -26,24 +27,27 @@ class Main extends Component {
 	render() {
 		return (        
 			<div className="mb-5"> 	
+				<Switch>
+					<Route 
+						exact path="/" 
+						render={() => this.state.auth
+							? <Redirect to="/dashboard" />
+							: <Splash /> 
+					} />
 
-				<Route 
-					exact path="/" 
-					render={() => this.state.auth
-						? <Redirect to="/dashboard" />
-						: <Splash /> 
-				} />
+					<Route 
+						path="/dashboard" 
+						render={() => <Dashboard user={this.state.user} handleAuth={this.handleAuthentication} /> } 
+					/>      
 
-				<Route 
-					path="/dashboard" 
-					render={() => <Dashboard user={this.state.user} handleAuth={this.handleAuthentication} /> } 
-				/>      
+					<Route 
+						path="/help"
+						component={Help}
+					/>
 
-				<Route 
-					path="/help"
-					component={Help}
-				/>
-
+					<Route component={NotFound} />
+				</Switch>	
+				
 				<Footer />
 			</div>
 		);

@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { config } from '../constants';
+import { API_ROOT, API_WS_ROOT } from '../constants';
 import { Redirect, Link } from 'react-router-dom';
 import { MdDeleteForever } from "react-icons/md";
 import { FaBackward, FaUserAlt, FaTasks, FaInfo, FaExclamation } from "react-icons/fa";
@@ -26,7 +26,7 @@ class Request extends Component {
 		this.attachRef = target => this.setState({ target });    
 		this.handleFulfilled = this.handleFulfilled.bind(this);
 		this.deleteVolunteer = this.deleteVolunteer.bind(this);		
-		this.cable = ActionCable.createConsumer(`${config.API_WS_ROOT}`);
+		this.cable = ActionCable.createConsumer(`${API_WS_ROOT}`);
 	}
 
 	componentDidMount() {
@@ -34,7 +34,7 @@ class Request extends Component {
 			const volunteer = {};
 			volunteer["request_id"] = this.props.request.id;
 			volunteer["user_id"] = this.props.user_id;
-			fetch(`${config.API_ROOT}/volunteers`,{
+			fetch(`${API_ROOT}/volunteers`,{
 				method: 'post',
 				headers: {	
 					'Content-Type':	'application/json',		
@@ -118,7 +118,7 @@ class Request extends Component {
 		const status = {};
 		status["fulfilled"] = true;		
 		e.preventDefault();
-		fetch(`${config.API_ROOT}/requests/${this.props.request.id}`,{
+		fetch(`${API_ROOT}/requests/${this.props.request.id}`,{
 			method: 'PATCH',
 			headers: {
 				'Content-Type': 'application/json', 	       
@@ -132,7 +132,7 @@ class Request extends Component {
 	}
 
 	deleteVolunteer(id) {
-		fetch(`${config.API_ROOT}/volunteers/${id}`,{
+		fetch(`${API_ROOT}/volunteers/${id}`,{
 			method: 'delete',
 			headers: {				
 				token: Auth.getToken(),

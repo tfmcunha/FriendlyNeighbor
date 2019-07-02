@@ -3,7 +3,7 @@ import { Row, Col, Form, Button } from 'react-bootstrap';
 import ActionCable from 'actioncable';
 import Auth from '../modules/auth';
 import '../css/chat.css';
-import { config } from '../constants';
+import { API_ROOT, API_WS_ROOT } from '../constants';
 
 class Chat extends Component {
 
@@ -21,7 +21,7 @@ class Chat extends Component {
 		this.handleNewMessage = this.handleNewMessage.bind(this);		
 		this.handleReceived = this.handleReceived.bind(this);
 		this.chatbox = React.createRef()
-		this.cable = ActionCable.createConsumer(`${config.API_WS_ROOT}`); //CREATES ACTION CABLE CONSUMER
+		this.cable = ActionCable.createConsumer(`${API_WS_ROOT}`); //CREATES ACTION CABLE CONSUMER
 	}
 
 //WHEN CALLED, CHECKS IF A SUBSCRIPTION TO A CHANNEL EXISTS AND UNSUBSCRIBES THAT CHANNEL
@@ -66,7 +66,7 @@ class Chat extends Component {
 
 //RETRIEVES THE CONVERSATION BETWEEN THE USER AND THE SELECTED VOLUNTEER
 	handleConversation(conversation) {
-		fetch(`${config.API_ROOT}/conversation`,{
+		fetch(`${API_ROOT}/conversation`,{
 			method: "GET",
 			headers: {
 				token: Auth.getToken(),
@@ -138,7 +138,7 @@ class Chat extends Component {
     	const message = this.state.message;
     	message["conversation_id"] = this.state.conversation_id;
     	message["user_id"]= this.props.sender_id;
-    	fetch(`${config.API_ROOT}/messages`, { 
+    	fetch(`${API_ROOT}/messages`, { 
        		method: 'POST', 
         	body: JSON.stringify(this.state.message), 
         	headers: {

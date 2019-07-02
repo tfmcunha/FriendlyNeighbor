@@ -24,16 +24,13 @@ class Menu extends Component {
 
 	     		<Navbar bg="light" expand="sm" className="menu" >
 		     		<Navbar.Brand className="brand p-2" href="/">Friendly Neighbour</Navbar.Brand>		     		
-		     		{this.props.alert && 
-		     			<div className="alert">!!!</div>
-		     		}
 		     		<Navbar.Toggle aria-controls="basic-navbar-nav" />
 		     		<Navbar.Collapse id="basic-navbar-nav">
 			     		<Nav className="ml-auto">				     		
 				     		<NavDropdown title={`Hello, ${this.props.user.first_name}`} id="basic-nav-dropdown">
-				     		<NavDropdown.Item href="/dashboard/profile">Profile</NavDropdown.Item>
-				     		<NavDropdown.Divider />
-				     		<NavDropdown.Item href="/" onClick={this.handleLogout}>Logout</NavDropdown.Item>
+					     		<NavDropdown.Item href="/dashboard/profile">Profile</NavDropdown.Item>
+					     		<NavDropdown.Divider />
+					     		<NavDropdown.Item href="/" onClick={this.handleLogout}>Logout</NavDropdown.Item>
 				     		</NavDropdown>
 			     		</Nav>
 		     		</Navbar.Collapse>

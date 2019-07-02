@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { API_ROOT } from '../constants';
+import { config } from '../constants';
 import { Redirect } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
 import Auth from '../modules/auth';
@@ -70,7 +70,7 @@ class LoginForm extends Component {
 		loginData["email"] = this.state.email
 		loginData["password"] = this.state.password
 		if ( this.validateForm() ) {		    
-		    fetch(`${API_ROOT}/login`, { 
+		    fetch(`${config.API_ROOT}/login`, { 
 		      method: 'POST', 
 		      body: JSON.stringify(loginData), 
 		      headers: {

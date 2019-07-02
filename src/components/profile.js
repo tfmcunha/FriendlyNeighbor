@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { API_ROOT } from '../constants';
+import { config } from '../constants';
 import { Link } from 'react-router-dom';
 import Auth from '../modules/auth';
 import { Row, Col, Form, Button, ListGroup } from 'react-bootstrap';
@@ -22,7 +22,7 @@ class Profile extends Component {
 	}
 
 	componentWillMount() {
-		fetch(`${API_ROOT}/owner`, { 
+		fetch(`${config.API_ROOT}/owner`, { 
 			method: 'GET',
 			headers: {	        
 				token: Auth.getToken(),
@@ -50,7 +50,7 @@ class Profile extends Component {
 	}	
 
 	handleRegister(e) {
-		fetch(`${API_ROOT}/users/${this.props.user.id}`,{
+		fetch(`${config.API_ROOT}/users/${this.props.user.id}`,{
 			method: 'PATCH',
 			headers: {
 				'Content-Type': 'application/json', 	       

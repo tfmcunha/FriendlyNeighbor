@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { API_ROOT } from '../constants';
+import { config } from '../constants';
 import Auth from '../modules/auth';
 import { Form, Button } from 'react-bootstrap';
 
@@ -69,7 +69,7 @@ class NewRequest extends Component {
 		e.preventDefault();
 		if(this.validateForm()) {
 			const request = JSON.stringify(this.state.request);
-			fetch(`${API_ROOT}/requests`, { 
+			fetch(`${config.API_ROOT}/requests`, { 
 	        	method: 'POST', 
 	        	body: request, 
 	        	headers: {	        

@@ -48,13 +48,13 @@ class Chat extends Component {
 		if (this.props.newChannel !== prevProps.newChannel) {
 			this.createSubscription(this.props.newChannel)
 		}
-		//CONDITIONAL TO
+		//CONDITIONAL FOR VOLUNTEER USER TO SUBSCRIBE TO THE CONVERSATION
 		if (prevProps.conversation !== this.props.conversation) {
 			this.setState({
 				conversation: this.props.conversation.messages,
 				conversation_id: this.props.conversation.id
 			});
-			//this.createSubscription(this.props.conversation.id);
+			this.createSubscription(this.props.conversation.id);
 		}
 		//CONDITIONAL TO CHECK IF THE SELECTED VOLUNTEER HAS CHANGED
 		if (prevProps.selected !== this.props.selected) {

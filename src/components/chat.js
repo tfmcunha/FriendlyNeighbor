@@ -96,17 +96,25 @@ class Chat extends Component {
 //PUSHES NEW MEESSAGE RECEIVED BY ACTIONCABLE INTO THE CONVERSATION ARRAY
 	handleReceived(response) {
 		let incoming = response.message;
-		let conversation_id = response.id;
-		let conversation = this.state.conversation;
+		let conversation_id = response.message.conversation_id;		
 		if (( this.props.sender_id === this.props.recipient_id ) && ( this.props.recipient_id !== response.message.user_id )) {
 
 			if ( response.message.conversation_id !== this.state.conversation_id ) {
 				const getconversation = { request_id: this.props.request_id, sender_id: response.message.user_id };
 				this.handleConversation(getconversation);
+			} else {
+				this.pushMessage(incoming, conversation_id)				
 			}
 
+		} else {
+			this.pushMessage(incoming, conversation_id)			
 		}		
-		conversation.push(incoming);
+		
+    }
+
+    pushMessage(message, conversation_id) {
+    	let conversation = this.state.conversation;
+		conversation.push(message);
 		this.setState({	
 			conversation, 
 			conversation_id			

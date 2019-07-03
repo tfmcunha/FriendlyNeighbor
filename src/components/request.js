@@ -78,9 +78,11 @@ class Request extends Component {
 		this.setState({channels})		
 	}
 
+//ONLY FOR REQUEST OWNER 
 	handleAlert(response) {			
 		if ( response.user_id !== this.props.user_id ) {			
 
+		//CHECKS IF INCOMING IS NEW CONVERSATION AND PASSES ID AS NEWCHANNEL TO SUBSCRIBE
 			if ( this.state.channels.every(channel => channel !== response.conversation_id)) {
 				const channels = this.state.channels;
 				channels.push(response.conversation_id);
@@ -89,7 +91,7 @@ class Request extends Component {
 					newChannel: response.conversation_id
 				})
 			} 
-
+		//CHECKS IF THE VOLUNTEER ALREADY EXISTS, OTHERWISE, RENDERS THE NEW NAME
 			let volunteers = this.state.volunteers;
 			if ( volunteers.every(volunteer => volunteer.user_id !== response.user_id)) {
 				volunteers.push(response)
@@ -97,6 +99,10 @@ class Request extends Component {
 			 		volunteers
 			 	});		 	
 			} 
+
+			this.setState({
+				selected: response.user_id}
+			);
 			this.highlightVolunteer(response.user_id)		
 		}
 	}
@@ -111,7 +117,7 @@ class Request extends Component {
 	}
 
 	selectVolunteer = (id) => {
-		this.setState({selected: id})
+		this.setState({selected: id});
 	}
 
 	handleFulfilled(e) {

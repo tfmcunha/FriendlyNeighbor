@@ -37,7 +37,31 @@ describe('<Dashboard />(authenticated)', () => {
 		expect(wrapper.find(RequestMap)).toHaveLength(1)
 	})
 
+	it('gets current location on mount', () => {
+		const getLocation = jest.spyOn(Dashboard.prototype, 'getLocation')
 
+		const wrapper = mount(
+			<MemoryRouter initialEntries={[ '/dashboard' ]}>
+		      <Dashboard />
+		    </MemoryRouter>
+		)		
+
+		expect(getLocation).toHaveBeenCalledTimes(1)
+	})
+
+	it('gets requests from server on mount', () => {
+		const fetchRequests = jest.spyOn(Dashboard.prototype, 'fetchProfile')
+
+		const wrapper = mount(
+			<MemoryRouter initialEntries={[ '/dashboard' ]}>
+		      <Dashboard />
+		    </MemoryRouter>
+		)	
+		const dash = wrapper.find(Dashboard)	
+		dash.instance().getLocation()		
+		expect(fetchRequests).toHaveBeenCalledTimes(1)
+	})
+	
 })
 
 

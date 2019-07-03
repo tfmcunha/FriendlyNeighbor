@@ -29,6 +29,7 @@ class Request extends Component {
 		this.cable = ActionCable.createConsumer(`${API_WS_ROOT}`);
 	}
 
+//IF CURRENT USER IS NOT THE REQUEST OWNER, SENDS 'POST' TO API SERVER TO CREATE VOLUNTEER
 	componentDidMount() {
 		if (this.props.user_id !== this.props.request.user_id) {
 			const volunteer = {};
@@ -49,7 +50,7 @@ class Request extends Component {
 					conversation: json
 				})
 			})
-		} else {
+		} else { //OWNER SUBSCRIBES TO REQUEST CHANNEL TO RECEIVE ALERTS
 			this.sub = this.cable.subscriptions.create(
       			{ channel: 'RequestsChannel', request: this.props.request.id },
 		    	{ received: (response) => { this.handleAlert(response) } }
@@ -58,7 +59,7 @@ class Request extends Component {
 		this.setState({
 			volunteers: this.props.request.volunteers,			
 		})
-		this.createChannels();		
+		this.createChannels(); 		
 	}
 
 	componentDidUpdate(prevProps, prevState) {

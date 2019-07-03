@@ -103,7 +103,7 @@ class Dashboard extends Component {
             })
         }
 	}
-	
+//CALLED WHEN CLICKING A REQUEST FROM THE LIST OR FROM MARKER	
 	handleRequest(request_id) {
 		let currentRequest = this.state.requests.find(request => request.id === request_id)	
 		this.setState({
@@ -111,7 +111,7 @@ class Dashboard extends Component {
 		})	
 
 	}
-
+//CALLED FROM PROFILE WHEN CHOOSING OWN REQUEST OR REQUEST WHERE USER IS VOLUNTEER
 	handleOwnRequest(request) {
 		let currentRequest = request;		
 		this.setState({

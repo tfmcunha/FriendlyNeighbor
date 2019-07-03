@@ -9,6 +9,7 @@ describe('<Request />', () => {
 		id: 1,
 		conversations: [1,2]
 	}
+	
 	it('renders the request as props', () => {
 		const wrapper = mount(
 			<MemoryRouter>

@@ -32,7 +32,8 @@ class Chat extends Component {
 		    { received: (response) => { this.handleReceived(response) } }
 	    )
 	}
-	
+
+//IF CURRENT USER IS OWNER, SUBSCRIBES TO EXISTING CONVERSATIONS	
 	componentDidMount(){
 		if (this.props.sender_id === this.props.recipient_id) {
 			this.props.channels && 
@@ -42,7 +43,8 @@ class Chat extends Component {
 		}
 	}
 
-	componentDidUpdate(prevProps, prevState) {			
+	componentDidUpdate(prevProps, prevState) {		
+		//IF A NEW VOLUNTEER APPEARS, SUBSCRIBES TO ITS CONVERSATION	
 		if (this.props.newChannel !== prevProps.newChannel) {
 			this.createSubscription(this.props.newChannel)
 		}
@@ -52,7 +54,7 @@ class Chat extends Component {
 				conversation: this.props.conversation.messages,
 				conversation_id: this.props.conversation.id
 			});
-			this.createSubscription(this.props.conversation.id);
+			//this.createSubscription(this.props.conversation.id);
 		}
 		//CONDITIONAL TO CHECK IF THE SELECTED VOLUNTEER HAS CHANGED
 		if (prevProps.selected !== this.props.selected) {

@@ -12,16 +12,7 @@ describe('<Chat />', () => {
 	}
 
 	const response = {message: {id: 1, body: "Hello", user_id: 2, conversation_id: 3}}
-
-	/*it('calls pushMessage on new message received', () => {
-		const pushMessage = jest.spyOn(Chat.prototype, 'pushMessage');	
-		const wrapper = mount(<Chat />)
-		
-		wrapper.instance().handleReceived(response)
-		
-		expect(pushMessage).toHaveBeenCalled()
-	})*/
-
+	
 	it('incoming message sets state with conversation id ', () => {		
 		const wrapper = mount(<Chat />)
 

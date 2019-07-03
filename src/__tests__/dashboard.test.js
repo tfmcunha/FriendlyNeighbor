@@ -47,21 +47,7 @@ describe('<Dashboard />(authenticated)', () => {
 		)		
 
 		expect(getLocation).toHaveBeenCalledTimes(1)
-	})
-
-	it('gets requests from server on mount', () => {
-		const fetchRequests = jest.spyOn(Dashboard.prototype, 'fetchProfile')
-
-		const wrapper = mount(
-			<MemoryRouter initialEntries={[ '/dashboard' ]}>
-		      <Dashboard />
-		    </MemoryRouter>
-		)	
-		const dash = wrapper.find(Dashboard)	
-		dash.instance().getLocation()		
-		expect(fetchRequests).toHaveBeenCalledTimes(1)
-	})
-	
+	})	
 })
 
 
